@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-import { Livro } from '../models/livro'
+
 var Schema = mongoose.Schema;
 
 var LivrariaSchema = new Schema({
     nome : {type : String},
     Morada : {type : String},
-    Livros : {type : Array[Livro]}
+    Livros : [{ type: mongoose.Schema.Types.ObjectId, ref: "Livro"}]
 });
 
 module.exports = mongoose.Schema('Livraria',LivrariaSchema)
