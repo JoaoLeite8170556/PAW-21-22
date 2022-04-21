@@ -5,17 +5,16 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 
-var indexRouter = require('./routes/index');
-var authRouter = require('./routes/user');
+var index = require('./routes/index');
+var users = require('./routes/user');
 
 var app = express();
 
-
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/livraria',{ useNewUrlParser: true, useUnifiedTopology: true })
-.then(function(){console.log('connection succesful to DB')})
-.catch(function(err){console.error(err)});
+mongoose.connect("mongodb+srv://paw2122:paw2122@paw2122.oe2uc.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",{ useNewUrlParser: true, useUnifiedTopology: true })
+.then(()=>{console.log('connection succesful to DB')})
+.catch((err)=>{console.error(err)});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,8 +26,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/utilizador', authRouter);
+app.use('/', index);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -45,7 +44,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   console.error("Algo aconteceu!! Erro");
 });
-
-
 
 module.exports = app;

@@ -4,10 +4,10 @@ var Livro = require('../models/livro');
 
 
 
-var AuthController = {};
+var Users = {};
 
 ///Método que vai servir para guardar um Cliente
-AuthController.RegisterCliente = function(req,res,next){
+Users.RegisterCliente = function(req,res,next){
 
     const cliente = new Utilizador({
         Nome: req.body.Nome,
@@ -43,7 +43,7 @@ AuthController.RegisterCliente = function(req,res,next){
 }
 
 ////Método que vai criar um Funcionário
-AuthController.RegisterFuncionario = function(req,res,next){
+Users.RegisterFuncionario = function(req,res,next){
 
     const cliente = new Utilizador({
         Nome: req.body.Nome,
@@ -69,7 +69,7 @@ AuthController.RegisterFuncionario = function(req,res,next){
 }
 
 
-AuthController.GetUtilizador = function(req,res){
+Users.GetUtilizador = function(req,res){
     Utilizador.findById(req.params.id,(err,user)=>{
         if(err){
             res.status(400).json(err);
@@ -79,7 +79,7 @@ AuthController.GetUtilizador = function(req,res){
     })
 }
 
-AuthController.GetAllUsers = function(req,res,next){
+Users.GetAllUsers = function(req,res,next){
     Utilizador.find({}).exec((err,utilizadores)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
@@ -93,4 +93,4 @@ AuthController.GetAllUsers = function(req,res,next){
 
 
 
-module.exports = AuthController;
+module.exports = Users;

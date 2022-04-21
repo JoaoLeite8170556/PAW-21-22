@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 
 
-var AuthController = require('../controllers/userController');
+var Users = require('../controllers/userController');
 
-router.post('/RegisterCliente',AuthController.RegisterCliente);
-router.post('/RegisterFuncionario',AuthController.RegisterFuncionario);
-router.get('/GetUser/:id',AuthController.GetUtilizador);
-router.get('/GetAllUsers',AuthController.GetAllUsers);
+router.post('/RegisterCliente',Users.RegisterCliente);
+router.post('/RegisterFuncionario',Users.RegisterFuncionario);
+router.get('/GetUtilizador/:id',Users.GetUtilizador);
+router.get('/GetAllUsers',Users.GetAllUsers);
 
 
 
