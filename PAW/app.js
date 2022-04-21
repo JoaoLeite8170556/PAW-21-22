@@ -18,6 +18,7 @@ mongoose.connect("mongodb+srv://paw2122:paw2122@paw2122.oe2uc.mongodb.net/myFirs
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.set("view engine", "ejs");
 
 
 app.use(logger('dev'));

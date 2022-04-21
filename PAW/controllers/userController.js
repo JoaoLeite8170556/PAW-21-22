@@ -1,13 +1,12 @@
-var express = require('express');
 var Utilizador = require('../models/utilizador');
 var Livro = require('../models/livro');
 
 
 
-var Users = {};
+var userController = {};
 
 ///Método que vai servir para guardar um Cliente
-Users.RegisterCliente = function(req,res,next){
+userController.RegisterCliente = function(req,res,next){
 
     const cliente = new Utilizador({
         Nome: req.body.Nome,
@@ -43,7 +42,7 @@ Users.RegisterCliente = function(req,res,next){
 }
 
 ////Método que vai criar um Funcionário
-Users.RegisterFuncionario = function(req,res,next){
+userController.RegisterFuncionario = function(req,res,next){
 
     const cliente = new Utilizador({
         Nome: req.body.Nome,
@@ -69,7 +68,7 @@ Users.RegisterFuncionario = function(req,res,next){
 }
 
 
-Users.GetUtilizador = function(req,res){
+userController.GetUtilizador = function(req,res){
     Utilizador.findById(req.params.id,(err,user)=>{
         if(err){
             res.status(400).json(err);
@@ -79,7 +78,7 @@ Users.GetUtilizador = function(req,res){
     })
 }
 
-Users.GetAllUsers = function(req,res,next){
+userController.list = function(req,res,next){
     Utilizador.find({}).exec((err,utilizadores)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
@@ -93,4 +92,4 @@ Users.GetAllUsers = function(req,res,next){
 
 
 
-module.exports = Users;
+module.exports = userController;
