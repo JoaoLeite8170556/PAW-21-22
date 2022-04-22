@@ -1,11 +1,48 @@
 var Utilizador = require('../models/utilizador');
 var Livro = require('../models/livro');
 const bcrypt = require("bcryptjs");
-const { exists } = require('../models/utilizador');
+const jwt = require("jsonwebtoken");
+const config = require('../jwt_secret/config');
+
 
 
 
 var userController = {};
+
+
+
+userController.login = async (req, res) => {
+    
+    let user = await Utilizador.findOne({ Email: req.body.Email });
+  
+    ////Utilizador não existe na Base de Dados
+    if (!user) {
+      return res.status(400).json({ message: "Este utilizador não existe!!!"});
+    }
+  
+    try {
+      if (await bcrypt.compare(req.body.Password, user.Password)) {
+  
+        const token = jwt.sign(
+          {
+            Nome: user.Nome,
+            Email: user.Email,
+            Role: user.Role,
+            id: user._id
+          },
+         config.secret,
+          {
+            expiresIn: 86400
+          }
+        );
+        res.json({ message: "Login realizado com sucesso!!!", token: token });
+      } else {
+        res.send("Password incorreta");
+      }
+    } catch (err) {
+      res.status(500).send(err);
+    }
+  };
 
 ///Método que vai servir para guardar um Cliente
 userController.RegisterCliente = async function(req,res,next){
@@ -106,7 +143,7 @@ userController.EditPassword = async function(req,res){
 
     ///Verificamos se a password não coencidem
     if(req.body.Password != req.body.Password2){
-       res.status(404).json({message : "As password não coêncidem!!!"});
+       res.status(404).json({message : "As passwords não coêncidem!!!"});
     }
 
     ///Verifica se o Email não existe!!

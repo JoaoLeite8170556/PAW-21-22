@@ -10,6 +10,7 @@ router.get('/show/:id',userController.GetUtilizador);
 router.get('/list',userController.list);
 router.put('/edit/:id',userController.editUser);
 router.put('/editPassword/:_id',userController.EditPassword);
+router.post('/login',userController.login);
 
 
 module.exports = router;
