@@ -9,6 +9,7 @@ router.post('/funcionario/create',userController.RegisterFuncionario);
 router.get('/show/:id',userController.GetUtilizador);
 router.get('/list',userController.list);
 router.put('/edit/:id',userController.editUser);
+router.put('/editPassword/:_id',userController.EditPassword);
 
 
 module.exports = router;
