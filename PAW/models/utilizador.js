@@ -14,7 +14,7 @@ var utilizadorSchema = new Schema({
     type: String,
     enum: ["Administrador", "Funcionario", "Cliente"],
   },
-  DataNascimento: { type: String },
+  DataNascimento: { type: String},
   Idade: { type: Number, default:0},
   NumAquisicoes: { type: Number, default:0},
   QuantidadeVendas: { type: Number ,default:0},

@@ -7,8 +7,35 @@ const config = require('../jwt_secret/config');
 
 
 
+
 var userController = {};
 
+////Método que converte um string para Date
+function covertStringToDate(dateString) {
+  //dateString should be in ISO format: "yyyy-mm-dd", "yyyy-mm" or "yyyy"
+  if(new Date(dateString).toString() === "Invalid Date") {
+      return false
+  } else {
+      const onlyNumbers = dateString.replace(/\D/g, ""); 
+      const year = onlyNumbers.slice(0,4) 
+      const month = onlyNumbers.slice(4,6)
+      const day = onlyNumbers.slice(6,8)
+      if(!month){
+          return(new Date(year))
+      } else if (!day) {
+          return(new Date(year, month - 1))
+      } else {
+          return(new Date(year, month - 1, day))
+      }        
+  }
+}
+
+
+////Metodo que vai calcular a idade de um cliente;
+function getAge(dateString) {
+  var ageInMilliseconds = new Date() - new Date(dateString);
+  return Math.floor(ageInMilliseconds/1000/60/60/24/365); // convert to years
+}
 
 
 userController.login = async (req, res) => {
@@ -36,6 +63,7 @@ userController.login = async (req, res) => {
           }
         );
         res.json({ message: "Login realizado com sucesso!!!", token: token });
+
       } else {
         res.send("Password incorreta");
       }
@@ -46,6 +74,29 @@ userController.login = async (req, res) => {
 
 ///Método que vai servir para guardar um Cliente
 userController.RegisterCliente = async function(req,res,next){
+
+
+    var dataNascimento = req.body.DataNascimento;
+
+    var dateParse = covertStringToDate(dataNascimento);
+
+    var idade = getAge(dateParse);
+
+
+
+    //Verifica conforme a idade a sua categoria;
+    var categoriaIdade = "";
+
+
+    if(idade > 0 && idade <= 12){
+      categoriaIdade = "Infantil";
+    }else if(idade > 12 && idade <= 18){
+      categoriaIdade = "Adolescente";
+    }else if(idade > 18 && idade <= 60){
+      categoriaIdade = "Adulto";
+    }else{
+      categoriaIdade = "Senior";
+    }
 
       ///Verifica se o Email não existe!!
       var email = req.body.Email;
@@ -65,7 +116,9 @@ userController.RegisterCliente = async function(req,res,next){
         Morada: req.body.Morada,
         Genero: req.body.Genero,
         DataNascimento: req.body.DataNascimento,
-        Role: "Cliente"
+        Role: "Cliente",
+        Idade : idade,
+        CategoriaIdade : categoriaIdade
     });
 
    user.save(function(err,cliente){
