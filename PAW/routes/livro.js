@@ -10,6 +10,10 @@ router.put('/updateStock/:id',livroController.UpdateStock);
 router.delete('/deleteBook/:ISBN',livroController.DeleteBook);
 router.put('/buyBook/:id/:ISBN',livroController.buyBook);
 router.get('/allBooks',livroController.allBooks);
+router.get('/getBook/:ISBN',livroController.getBook);
+router.get('/getBooksWtihoutStock',livroController.getBooksWithoutStock);
+router.get('/getBooksNovos',livroController.getBooksNovos);
+router.get('/getBooksUsados',livroController.getBooksUsados);
 
 
 module.exports = router;

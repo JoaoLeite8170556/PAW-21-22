@@ -24,7 +24,7 @@ var utilizadorSchema = new Schema({
     enum: ["Infantil", "Adolescente", "Adulto", "Senior"],
   },
   LivrosComprados: [],
-  LivrosVendidos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Livro" }],
+  LivrosVendidos: [],
 });
 
 module.exports = mongoose.model("Utilizador", utilizadorSchema);

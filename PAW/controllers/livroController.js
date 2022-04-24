@@ -1,13 +1,9 @@
 var Utilizador = require('../models/utilizador');
 var Livro = require('../models/livro');
-const { findByIdAndUpdate, findByIdAndRemove, find, findOne, findOneAndUpdate } = require('../models/utilizador');
+
 
 
 var livroController  = {};
-
-
-
-
 
 ////Método que vai adicionar um livro na BD
 livroController.addLivro = async function(req,res,next){
@@ -40,9 +36,6 @@ livroController.addLivro = async function(req,res,next){
 
 ////Método para atualizar o stock de um determinado livro
 livroController.UpdateStock = function(req,res,next){
-
-
-
     const sotck = {
         Stock : req.body.Stock
     }
@@ -115,8 +108,57 @@ livroController.buyBook = async function(req,res){
 }
 
 ///Método que retorna uma lista de livros
-livroController.allBooks = function(req,res){
+livroController.allBooks = function(req,res,next){
     Livro.find({}).exec((err,livros)=>{
+        if(err){
+            console.log("Erro a obter os dados da BD");
+            next(err);
+        }else{
+            console.log(livros);
+            res.status(201).json(livros);
+        }
+    });
+}
+
+/// Metódo que retorna um livro
+livroController.getBook = function(req,res){
+    Livro.findOne({isbn:req.params.ISBN},(err,livro)=>{
+        if(err){
+            res.status(400).json({message : "O livro não foi encontrado!!!"});
+        }else{
+            res.status(200).json(livro);
+        }});
+        
+}
+
+///Método que retorna livros onde não tem stock
+livroController.getBooksWithoutStock = function(req,res,next){
+    Livro.find({Stock : 0}).exec((err,livros)=>{
+        if(err){
+            console.log("Erro a obter os dados da BD");
+            next(err);
+        }else{
+            console.log(livros);
+            res.status(201).json(livros);
+        }
+    });
+}
+///Método que retorna livros que tenham o estado "Novo"
+livroController.getBooksNovos = function(req,res,next){
+    Livro.find({Estado : 'Novo'}).exec((err,livros)=>{
+        if(err){
+            console.log("Erro a obter os dados da BD");
+            next(err);
+        }else{
+            console.log(livros);
+            res.status(201).json(livros);
+        }
+    });
+}
+
+////Método que retorna livros que estão com o estado "Usado"
+livroController.getBooksUsados = function(req,res,next){
+    Livro.find({Estado : 'Usado'}).exec((err,livros)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
             next(err);
