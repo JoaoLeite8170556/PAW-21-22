@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-
-
-
 var LivroSchema = new Schema({
     Imagem : {type : String},
     ISBN :{type : String},
@@ -10,7 +7,7 @@ var LivroSchema = new Schema({
     Autores : [{
         type: String
     }],
-    AnoPublicacao : {type: Date},
+    AnoPublicacao : {type: String},
     Preco :{type : Number},
     Editora : {type : String},
     Estado : {
