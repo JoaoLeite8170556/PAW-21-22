@@ -1,6 +1,6 @@
 var Utilizador = require('../models/utilizador');
 var Livro = require('../models/livro');
-const { findByIdAndUpdate, findByIdAndRemove, find, findOne } = require('../models/utilizador');
+const { findByIdAndUpdate, findByIdAndRemove, find, findOne, findOneAndUpdate } = require('../models/utilizador');
 
 
 var livroController  = {};
@@ -42,6 +42,7 @@ livroController.addLivro = async function(req,res,next){
 livroController.UpdateStock = function(req,res,next){
 
 
+
     const sotck = {
         Stock : req.body.Stock
     }
@@ -52,5 +53,81 @@ livroController.UpdateStock = function(req,res,next){
         return res.status(200).json(livro);
     });
 }
+
+////Método para remover livro
+livroController.DeleteBook = function(req,res){
+    Livro.deleteOne({ISBN:req.params.ISBN},(err)=>{
+        if(err) return res.status(400).json({
+            error:true,
+            message: "Ocorreu um erro a apagar o livro!!!"
+        });
+        
+        return res.json({
+            error:false,
+            message:"Livro apagado com sucesso!!"
+        });
+    });
+}
+
+
+/// Método para comprar um livro
+livroController.buyBook = async function(req,res){
+
+    console.log(req.params.id,req.params.ISBN);
+    
+    const utilizador = await Utilizador.findOne({_id : req.params.id}).exec();
+
+    if(!utilizador){
+        return res.status(404).json({message: "Este utilizador não existe!!"});
+    }
+
+    const book = await Livro.findOne({isbn: req.params.ISBN}).exec();
+
+    if(!book){
+        return res.status(404).json({message: "Este livro não existe!!!"});
+    }
+
+
+
+    if(book.Stock == 0){
+        return res.json({message:"Não pode conprar este livro, porque já não em stock!!!"});
+    }
+
+    let newStock = book.Stock - 1;
+
+    console.log(newStock);
+
+    Utilizador.findOneAndUpdate({_id:req.params.id},
+        {$push:{LivrosComprados: book}},
+        {new: true, upsert: true },
+        function(error,success){
+            if(error){
+                console.log(error);
+            }else{
+                console.log(success);
+            }
+        }).exec();
+
+    return res.status(200).json({
+        message: "Este livro foi comprado com sucesso!!!"
+    });
+
+}
+
+///Método que retorna uma lista de livros
+livroController.allBooks = function(req,res){
+    Livro.find({}).exec((err,livros)=>{
+        if(err){
+            console.log("Erro a obter os dados da BD");
+            next(err);
+        }else{
+            console.log(livros);
+            res.status(201).json(livros);
+        }
+    });
+}
+
+
+
 
 module.exports = livroController;

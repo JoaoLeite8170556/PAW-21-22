@@ -23,7 +23,7 @@ var utilizadorSchema = new Schema({
     type: String,
     enum: ["Infantil", "Adolescente", "Adulto", "Senior"],
   },
-  LivrosComprados: [{ type: mongoose.Schema.Types.ObjectId, ref: "Livro" }],
+  LivrosComprados: [],
   LivrosVendidos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Livro" }],
 });
 
