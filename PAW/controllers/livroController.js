@@ -34,6 +34,16 @@ livroController.addLivro = async function(req,res,next){
 
 }
 
+///Método que permite editar os dados de um livro
+livroController.editBook = function(req,res,next){
+    Livro.findByIdAndUpdate(req.params.id,req.body,(err,livro)=>{
+        if(err){return next(err)}
+
+        res.status(200).json(livro);
+        console.log(livro);
+    })
+}
+
 ////Método para atualizar o stock de um determinado livro
 livroController.UpdateStock = function(req,res,next){
     const sotck = {
@@ -79,8 +89,6 @@ livroController.buyBook = async function(req,res){
     if(!book){
         return res.status(404).json({message: "Este livro não existe!!!"});
     }
-
-
 
     if(book.Stock == 0){
         return res.json({message:"Não pode conprar este livro, porque já não em stock!!!"});

@@ -12,7 +12,8 @@ var LivroSchema = new Schema({
     Editora : {type : String},
     Estado : {
         type : String,
-        enum : ['Novo','Usado']
+        enum : ['Novo','Usado'],
+        default: "Novo"
     },
     Stock : {
         type : Number,
