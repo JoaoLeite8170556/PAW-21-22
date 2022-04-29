@@ -15,12 +15,13 @@ livroController.addLivro = async function(req,res,next){
     }
 
     const livro = new Livro({
-        Imagem : req.body.Imagem,
+        Imagem : req.file.path,
         ISBN : req.body.ISBN,
         Titulo : req.body.Titulo,
         Autores : req.body.Autores,
         AnoPublicacao : req.body.AnoPublicacao,
         Preco : req.body.Preco,
+        Editora : req.body.Editora,
         Estado : req.body.Estado,
         Stock : req.body.Stock
     });
@@ -133,7 +134,7 @@ livroController.allBooks = function(req,res,next){
 
 /// Metódo que retorna um livro
 livroController.getBook = function(req,res){
-    Livro.findOne({isbn:req.params.ISBN},(err,livro)=>{
+    Livro.findOne({_id:req.params.id},(err,livro)=>{
         if(err){
             res.status(400).json({message : "O livro não foi encontrado!!!"});
         }else{
