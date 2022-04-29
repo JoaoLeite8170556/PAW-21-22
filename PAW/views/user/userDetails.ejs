@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Detail</title>
+  </head>
+  <body>
+    <div >
+        <div onclick="location.href='/';" style="cursor: pointer;">
+           <h1>Livraria</h1>
+        </div>
+        <div ><div >
+          <a href="/auth">Login</a>
+          <a href="/local">Locals of Events</a>
+          <a href="/event">Events</a>
+          <a href="/ticket">Tickets</a>
+          <a href="/user">Users</a>
+       </div>
+           <div >
+              <h1>Users List</h1>
+            </div>
+        </div>
+     </div>
+    <div class="editcontainer">
+      <div class="leftSide">
+        <p><%= user.Nome%></p>
+      </div>
+      <div class="rightSide">
+        <table>
+          <tbody>
+            <tr>
+              <td>Nome</td>
+              <td class="points">:</td>
+              <td><%= user.Nome %></td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td class="points">:</td>
+              <td><%= user.Email %></td>
+            </tr>
+
+            <tr>
+              <td>Role</td>
+              <td class="points">:</td>
+              <td><%= user.Role %></td>
+            </tr>
+            <tr>
+                <td>Morada</td>
+                <td class="points">:</td>
+                <td><%= user.Morada %></td>
+              </tr>
+              <tr>
+                <td>Genero</td>
+                <td class="points">:</td>
+                <td><%= user.Genero %></td>
+              </tr>
+              <tr>
+                <td>DataNascimento</td>
+                <td class="points">:</td>
+                <td><%= user.DataNascimento %></td>
+              </tr>
+              <tr>
+                <td>Idade</td>
+                <td class="points">:</td>
+                <td><%= user.Idade %></td>
+              </tr>
+              <tr>
+                <td>NumAquisicoes</td>
+                <td class="points">:</td>
+                <td><%= user.NumAquisicoes %></td>
+              </tr>
+              <tr>
+                <td>QuantidadeVendas</td>
+                <td class="points">:</td>
+                <td><%= user.QuantidadeVendas %></td>
+              </tr>
+              <tr>
+                <td>ValorTotalVendas</td>
+                <td class="points">:</td>
+                <td><%= user.ValorTotalVendas %></td>
+              </tr>
+              <tr>
+                <td>CategoriaIdade</td>
+                <td class="points">:</td>
+                <td><%= user.CategoriaIdade %></td>
+              </tr>
+          </tbody>
+        </table>
+        <tr>
+          <td>
+            <a class="showButt" href="/users/list"> Show all Users </a>
+          </td>
+        </tr>
+      </div>
+    </div>
+  </body>
+</html>

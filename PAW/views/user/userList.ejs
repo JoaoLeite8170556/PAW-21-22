@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+ 
+  <body>
+    <div >
+      <div onclick="location.href='/';" style="cursor: pointer;">
+         <h1>Livraria</h1>
+      </div>
+      <div class="right"><div class="nav">
+        <a href="/auth">Login</a>
+        <a href="/local">Locals of Events</a>
+        <a href="/event">Events</a>
+        <a href="/ticket">Tickets</a>
+        <a href="/user">Users</a>
+     </div>
+         <div class="navbot">
+            <h1>Users List</h1>
+          </div>
+      </div>
+   </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Genero</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Idade</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<users.length;i++) { %>
+              <tr>
+                <td> <%=i%> </td>
+                <td> <%= users[i].Nome%></a></td>
+                <td> <%=users[i].Genero%></a></td>
+                <td> <%=users[i].Email%></a></td>
+                <td> <%=users[i].Role%></a></td>
+                <td> <%=users[i].Idade%></a></td>
+                <td><a href="/users/show/<%= users[i]._id%> "> Show </td>
+                <td><a href="/users/delete/<%= users[i]._id%> "> Delete </a></td>
+                  
+                </tr>
+            <% } %>
+          </tbody>
+        </table>
+    </div>
+  </body>
+</html>

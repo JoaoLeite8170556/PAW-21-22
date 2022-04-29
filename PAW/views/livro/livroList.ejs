@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+ 
+  <body>
+    <div >
+      <div onclick="location.href='/';" style="cursor: pointer;">
+         <h1>Livraria</h1>
+      </div>
+      <div class="right"><div class="nav">
+        <a href="/auth">Login</a>
+        <a href="/local">Locals of Events</a>
+        <a href="/event">Events</a>
+        <a href="/ticket">Tickets</a>
+        <a href="/user">Users</a>
+     </div>
+         <div class="navbot">
+            <h1>Users List</h1>
+          </div>
+      </div>
+   </div>
+      <div>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Titulo</th>
+              <th>Autores</th>
+              <th>Editora</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for(var i=0; i<livros.length;i++) { %>
+              <tr>
+                <td> <%=i%> </td>
+                <td> <%= livros[i].Titulo%></a></td>
+                <td> <%=livros[i].Autores%></a></td>
+                <td> <%=livros[i].Editora%></a></td>
+                <td><a href="/livros/getBook/<%= livros[i].ISBN%>"> Show </td>
+                <td><a href="/livros/deleteBook/<%= livros[i]._id%>"> Delete </a></td>
+                  
+                </tr>
+            <% } %>
+          </tbody>
+        </table>
+    </div>
+  </body>
+</html>

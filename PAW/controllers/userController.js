@@ -161,7 +161,8 @@ userController.GetUtilizador = function(req,res){
         if(err){
             res.status(400).json({message : "Utilizador não encontrado!!!"});
         }else{
-            res.status(200).json(user);
+            //res.status(200).json(user);
+            res.render("user/userDetails", { user: user });
         }
     })
 }
@@ -175,7 +176,8 @@ userController.list = function(req,res,next){
             next(err);
         }else{
             console.log(utilizadores);
-            res.status(201).json(utilizadores);
+            //res.status(201).json(utilizadores);
+            res.render("user/userList", { users: utilizadores });
         }
     });
 }
@@ -186,7 +188,8 @@ userController.editUser = function(req,res,next){
         if(err){return next(err)}
 
         res.status(200).json(user);
-        console.log(user);
+        //console.log(user);
+        res.render("user/userEdit", { users: utilizadores });
     })
 }
 

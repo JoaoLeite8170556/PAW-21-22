@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Livro Detail</title>
+  </head>
+  <body>
+    <div >
+        <div onclick="location.href='/';" style="cursor: pointer;">
+           <h1>Livraria</h1>
+        </div>
+        <div ><div >
+          <a href="/auth">Login</a>
+          <a href="/local">Locals of Events</a>
+          <a href="/event">Events</a>
+          <a href="/ticket">Tickets</a>
+          <a href="/user">Users</a>
+       </div>
+        </div>
+     </div>
+    <div class="editcontainer">
+      <div class="leftSide">
+        <p><%= livro.Titulo%></p>
+      </div>
+      <div class="rightSide">
+        <table>
+          <tbody>
+            <tr>
+              <td>Titulo</td>
+              <td class="points">:</td>
+              <td><%= livro.Titulo %></td>
+            </tr>
+            <tr>
+              <td>Autores</td>
+              <td class="points">:</td>
+              <td><%= livro.Autores %></td>
+            </tr>
+
+            <tr>
+              <td>Ano de Publicacao</td>
+              <td class="points">:</td>
+              <td><%= livro.AnoPublicacao %></td>
+            </tr>
+            <tr>
+                <td>Preco</td>
+                <td class="points">:</td>
+                <td><%= livro.Preco %></td>
+              </tr>
+              <tr>
+                <td>Editora</td>
+                <td class="points">:</td>
+                <td><%= livro.Editora %></td>
+              </tr>
+              <tr>
+                <td>Estado</td>
+                <td class="points">:</td>
+                <td><%= livro.Estado %></td>
+              </tr>
+              <tr>
+                <td>Stock</td>
+                <td class="points">:</td>
+                <td><%= livro.Stock %></td>
+              </tr>
+          </tbody>
+        </table>
+        <tr>
+          <td>
+            <a class="showButt" href="/livros/list"> Show all Livros </a>
+          </td>
+        </tr>
+      </div>
+    </div>
+  </body>
+</html>

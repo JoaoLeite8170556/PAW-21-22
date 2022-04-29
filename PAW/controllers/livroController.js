@@ -59,16 +59,18 @@ livroController.UpdateStock = function(req,res,next){
 
 ////Método para remover livro
 livroController.DeleteBook = function(req,res){
-    Livro.deleteOne({ISBN:req.params.ISBN},(err)=>{
+    Livro.deleteOne({_id:req.params.id},(err)=>{
         if(err) return res.status(400).json({
             error:true,
             message: "Ocorreu um erro a apagar o livro!!!"
         });
         
-        return res.json({
-            error:false,
-            message:"Livro apagado com sucesso!!"
-        });
+        // return res.json({
+        //     error:false,
+        //     message:"Livro apagado com sucesso!!"
+            
+        // });
+        res.redirect("/livro/livroList");
     });
 }
 
@@ -123,7 +125,8 @@ livroController.allBooks = function(req,res,next){
             next(err);
         }else{
             console.log(livros);
-            res.status(201).json(livros);
+            //res.status(201).json(livros);
+            res.render("livro/livroList", { livros: livros });
         }
     });
 }
@@ -134,7 +137,8 @@ livroController.getBook = function(req,res){
         if(err){
             res.status(400).json({message : "O livro não foi encontrado!!!"});
         }else{
-            res.status(200).json(livro);
+            //res.status(200).json(livro);
+            res.render("livro/livroDetails", { livro: livro });
         }});
         
 }
