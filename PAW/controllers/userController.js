@@ -38,6 +38,7 @@ function getAge(dateString) {
 }
 
 
+
 userController.login = async (req, res) => {
     
     let user = await Utilizador.findOne({ Email: req.body.Email });
@@ -62,7 +63,13 @@ userController.login = async (req, res) => {
             expiresIn: 86400
           }
         );
-        res.json({ message: "Login realizado com sucesso!!!", token: token });
+        res.status(200).send({
+          auth: true,
+          token: token,
+          email: user.Email,
+          _id : user._id,
+          role : user.Role
+        });
 
       } else {
         res.send("Password incorreta");
@@ -224,10 +231,81 @@ userController.EditPassword = async function(req,res){
                 res.status(404).json({message: "Utilizador não encontrado!!!!"}); 
             }
             res.status(200).json({message:result});
-     });
+     });  
+}
 
-   
-    
+userController.verifyToken = function(req,res,next){
+  var token = req.headers["x-access-token"];
+
+  if(!token){
+    return res.status(403).send({auth: false, message:"No token provided"});
+  }else{
+    jwt.verify(token,config.secret,function(err,decoded){
+      if(err){
+        return res.status(500).send({auth:false,message:"Invalid Token"});
+      }
+
+      req.userId = decoded.id;
+      req.role = decoded.role;
+      next();
+    })
+  }
+}
+
+userController.verifyAdmin = function(req,res,next){
+  Utilizador.findById(req.userId,function(err,user){
+    if(err){
+      return res.status(500).send("There was a problem finding the user.");
+    }
+    if(!user) return res.status(404).send("No user found.");
+
+    if(user.Role === "Administrador"){
+      next();
+    }else{
+      return res.status(403).send({
+        auth:false,
+        message:"Access Denied"
+      });
+    }
+  })
+}
+
+userController.verifyCliente = function(req,res,next){
+  Utilizador.findById(req.userId,function(err,user){
+    if(err){
+      return res.status(500).send("There was a problem finding the user.");
+    }
+    if(!user) return res.status(404).send("No user found.");
+
+    if(user.Role === "Cliente"){
+      next();
+    }else{
+      return res.status(403).send({
+        auth:false,
+        message:"Access Denied"
+      });
+    }
+  })
+}
+
+
+
+userController.verifyFuncionario = function(req,res,next){
+  Utilizador.findById(req.userId,function(err,user){
+    if(err){
+      return res.status(500).send("There was a problem finding the user.");
+    }
+    if(!user) return res.status(404).send("No user found.");
+
+    if(user.Role === "Funcionario"){
+      next();
+    }else{
+      return res.status(403).send({
+        auth:false,
+        message:"Access Denied"
+      });
+    }
+  })
 }
 
 
