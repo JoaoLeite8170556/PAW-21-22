@@ -14,7 +14,7 @@ router.post('/client/register',userController.RegisterCliente);
 router.post('/employee/register',userController.RegisterFuncionario);
 router.get('/show/:id',userController.GetUtilizador);
 router.get('/list',userController.list);
-router.post('/update/:id',userController.Update);
+router.put('/update/:id',userController.Update);
 router.post('/editPassword/:_id',userController.EditPassword);
 router.post('/login',userController.login);
 router.get('/logout');

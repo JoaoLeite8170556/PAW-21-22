@@ -29,7 +29,7 @@ router.get('/show/:id',bookController.getBook);
 router.get('/getBooksWtihoutStock',bookController.getBooksWithoutStock);
 router.get('/getBooksNovos',bookController.getBooksNovos);
 router.get('/getBooksUsados',bookController.getBooksUsados);
-router.post('/update/:id', bookController.Update);
+router.put('/update/:id', bookController.Update);
 
 
 module.exports = router;

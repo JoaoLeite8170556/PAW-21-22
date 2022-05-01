@@ -45,7 +45,7 @@ bookController.editBook = (req, res) =>{
       if (err) {
         res.status(400).json({ message: "Livro não encontrado!!!" });
       } else {
-        res.render("book/update", { book : book });
+        res.render("/book/update", { book : book });
       }
     })
 }
@@ -53,9 +53,11 @@ bookController.editBook = (req, res) =>{
 ///Método que permite editar os dados de um livro
 bookController.Update = function(req,res,next){
     Livro.findByIdAndUpdate(req.params.id,req.body,{ useFindAndModify: false},(err)=>{
-        if(err){return next(err)}
-        res.redirect('/books/list');
-    })
+        if (err) {
+            return next(err);
+          }
+          res.redirect('/books/list');
+    });
 }
 
 ////Método para atualizar o stock de um determinado livro

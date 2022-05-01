@@ -11,7 +11,7 @@
   </header>
   <main>
     <h4>Edit User</h4>
-    <form action="/users/update/<%=user._id %>" method="POST">
+    <form action="/users/update/<%=user._id %>" method="PUT">
       <div>
         <div>
           <label for="Nome">Name</label>
@@ -48,7 +48,7 @@
 
       </div>
     </form>
-    <button onclick="location.href='/users/list'" type="button">Cancel</button>
+    <button type="button">Cancel</button>
   </main>
   <footer>
     <%- include('../partials/footer.ejs'); %>
