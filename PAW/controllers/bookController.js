@@ -1,12 +1,17 @@
 var Utilizador = require('../models/utilizador');
-var Livro = require('../models/livro');
+var Livro = require('../models/book');
+const book = require('../models/book');
 
 
 
-var livroController  = {};
+var bookController  = {};
+
+bookController.addBook = (req, res) =>{
+    res.render('book/create');
+}
 
 ////Método que vai adicionar um livro na BD
-livroController.addLivro = async function(req,res,next){
+bookController.RegisterBook = async function(req,res,next){
 
     var ISBNTemp = await Livro.findOne({ISBN:req.body.ISBN}).exec();
 
@@ -15,7 +20,7 @@ livroController.addLivro = async function(req,res,next){
     }
 
     const livro = new Livro({
-        Imagem : req.file.path,
+        /* Imagem : req.file.path, */
         ISBN : req.body.ISBN,
         Titulo : req.body.Titulo,
         Autores : req.body.Autores,
@@ -29,24 +34,32 @@ livroController.addLivro = async function(req,res,next){
 
     livro.save(function(err,livro){
         if(err){ return next(err)}
-        res.status(201).json(livro);
+        res.redirect('/books/list');
     });
 
 
 }
 
-///Método que permite editar os dados de um livro
-livroController.editBook = function(req,res,next){
-    Livro.findByIdAndUpdate(req.params.id,req.body,(err,livro)=>{
-        if(err){return next(err)}
+bookController.editBook = (req, res) =>{
+    Livro.findById(req.params.id, (err, book) => {
+      if (err) {
+        res.status(400).json({ message: "Livro não encontrado!!!" });
+      } else {
+        res.render("book/update", { book : book });
+      }
+    })
+}
 
-        res.status(200).json(livro);
-        console.log(livro);
+///Método que permite editar os dados de um livro
+bookController.Update = function(req,res,next){
+    Livro.findByIdAndUpdate(req.params.id,req.body,{ useFindAndModify: false},(err)=>{
+        if(err){return next(err)}
+        res.redirect('/books/list');
     })
 }
 
 ////Método para atualizar o stock de um determinado livro
-livroController.UpdateStock = function(req,res,next){
+bookController.UpdateStock = function(req,res,next){
     const sotck = {
         Stock : req.body.Stock
     }
@@ -59,25 +72,19 @@ livroController.UpdateStock = function(req,res,next){
 }
 
 ////Método para remover livro
-livroController.DeleteBook = function(req,res){
-    Livro.deleteOne({_id:req.params.id},(err)=>{
-        if(err) return res.status(400).json({
-            error:true,
-            message: "Ocorreu um erro a apagar o livro!!!"
-        });
-        
-        // return res.json({
-        //     error:false,
-        //     message:"Livro apagado com sucesso!!"
-            
-        // });
-        res.redirect("/livro/livroList");
-    });
+bookController.DeleteBook = function(req,res){
+    Livro.findByIdAndRemove(req.params.id, (err) => {
+        if (err) {
+          res.status(400).json({ message: "Livro não encontrado!!!" });
+        } else {
+          res.redirect('/books/list');
+        }
+      });
 }
 
 
 /// Método para comprar um livro
-livroController.buyBook = async function(req,res){
+bookController.buyBook = async function(req,res){
 
     console.log(req.params.id,req.params.ISBN);
     
@@ -119,33 +126,31 @@ livroController.buyBook = async function(req,res){
 }
 
 ///Método que retorna uma lista de livros
-livroController.allBooks = function(req,res,next){
-    Livro.find({}).exec((err,livros)=>{
+bookController.allBooks = function(req,res,next){
+    Livro.find({}).exec((err,books)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
             next(err);
         }else{
-            console.log(livros);
-            //res.status(201).json(livros);
-            res.render("livro/livroList", { livros: livros });
+            console.log(books);
+            res.render("book/list", { books: books });
         }
     });
 }
 
 /// Metódo que retorna um livro
-livroController.getBook = function(req,res){
-    Livro.findOne({_id:req.params.id},(err,livro)=>{
+bookController.getBook = function(req,res){
+    Livro.findOne({_id:req.params.id},(err,book)=>{
         if(err){
             res.status(400).json({message : "O livro não foi encontrado!!!"});
         }else{
-            //res.status(200).json(livro);
-            res.render("livro/livroDetails", { livro: livro });
+            res.render("book/details", { book: book });
         }});
         
 }
 
 ///Método que retorna livros onde não tem stock
-livroController.getBooksWithoutStock = function(req,res,next){
+bookController.getBooksWithoutStock = function(req,res,next){
     Livro.find({Stock : 0}).exec((err,livros)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
@@ -157,7 +162,7 @@ livroController.getBooksWithoutStock = function(req,res,next){
     });
 }
 ///Método que retorna livros que tenham o estado "Novo"
-livroController.getBooksNovos = function(req,res,next){
+bookController.getBooksNovos = function(req,res,next){
     Livro.find({Estado : 'Novo'}).exec((err,livros)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
@@ -170,7 +175,7 @@ livroController.getBooksNovos = function(req,res,next){
 }
 
 ////Método que retorna livros que estão com o estado "Usado"
-livroController.getBooksUsados = function(req,res,next){
+bookController.getBooksUsados = function(req,res,next){
     Livro.find({Estado : 'Usado'}).exec((err,livros)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
@@ -185,4 +190,4 @@ livroController.getBooksUsados = function(req,res,next){
 
 
 
-module.exports = livroController;
+module.exports = bookController;

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <div>
+      <h4>
+        <%= user.Nome%>
+      </h4>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <td>Nome</td>
+              <td>:</td>
+              <td>
+                <%= user.Nome %>
+              </td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td>:</td>
+              <td>
+                <%= user.Email %>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Role</td>
+              <td>:</td>
+              <td>
+                <%= user.Role %>
+              </td>
+            </tr>
+            <tr>
+              <td>Morada</td>
+              <td>:</td>
+              <td>
+                <%= user.Morada %>
+              </td>
+            </tr>
+            <tr>
+              <td>Genero</td>
+              <td>:</td>
+              <td>
+                <%= user.Genero %>
+              </td>
+            </tr>
+            <tr>
+              <td>DataNascimento</td>
+              <td>:</td>
+              <td>
+                <%= user.DataNascimento %>
+              </td>
+            </tr>
+            <tr>
+              <td>Idade</td>
+              <td>:</td>
+              <td>
+                <%= user.Idade %>
+              </td>
+            </tr>
+            <tr>
+              <td>NumAquisicoes</td>
+              <td>:</td>
+              <td>
+                <%= user.NumAquisicoes %>
+              </td>
+            </tr>
+            <tr>
+              <td>QuantidadeVendas</td>
+              <td>:</td>
+              <td>
+                <%= user.QuantidadeVendas %>
+              </td>
+            </tr>
+            <tr>
+              <td>ValorTotalVendas</td>
+              <td>:</td>
+              <td>
+                <%= user.ValorTotalVendas %>
+              </td>
+            </tr>
+            <tr>
+              <td>CategoriaIdade</td>
+              <td>:</td>
+              <td>
+                <%= user.CategoriaIdade %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="location.href='/users/list'" type="button">VOLTAR</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

@@ -7,7 +7,7 @@ var LivroSchema = new Schema({
     Autores : [{
         type: String
     }],
-    AnoPublicacao : {type: String},
+    AnoPublicacao : {type: Number},
     Preco :{type : Number},
     Editora : {type : String},
     Estado : {

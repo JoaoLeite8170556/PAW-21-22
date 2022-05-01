@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <h4>Edit User</h4>
+    <form action="/users/update/<%=user._id %>" method="POST">
+      <div>
+        <div>
+          <label for="Nome">Name</label>
+          <input type="hidden" name="id" value="<%=user._id%>">
+          <input type="text" name="Nome" id="Nome" value="<%=user.Nome%>" placeholder="First and Last" required>
+        </div>
+        <div>
+          <label for="Email">Email</label>
+          <input type="email" name="Email" id="Email" value="<%=user.Email%>" placeholder="example@gmail.com" required>
+        </div>
+        <div>
+          <label for="Password">Password</label>
+          <input type="password" name="Password" id="Password" value="<%=user.Password%>" required>
+        </div>
+        <div>
+          <label for="Morada">Morada</label>
+          <input type="text" name="Morada" id="Morada" value="<%=user.Morada%>" placeholder="Street, Number, Postal Code" required>
+        </div>
+        <div>
+            <label for="Genero">Genero</label>
+          <select id="Genero" name="Genero">
+            <option value="" disabled selected>Selecionar</option>
+            <option value="Masculino" <%=user.Genero == 'Masculino' ? 'selected' : '' %>>Masculino</option>
+            <option value="Feminino" <%=user.Genero == 'Feminino' ? 'selected' : '' %>>Feminino</option>
+          </select>
+        </div>
+        <div>
+          <label for="DataNascimento">Data Nascimento</label>
+          <input type="date" name="DataNascimento" id="DataNascimento" value="<%=user.DataNascimento%>" required>
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+
+      </div>
+    </form>
+    <button onclick="location.href='/users/list'" type="button">Cancel</button>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

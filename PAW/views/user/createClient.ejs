@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <h4>New User</h4>
+    <form action="/users/client/register" method="POST">
+      <div>
+        <div>
+          <label for="Nome">Name</label>
+          <input type="hidden" name="id" value="">
+          <input type="text" name="Nome" id="Nome" value="" placeholder="First and Last" required>
+        </div>
+        <div>
+          <label for="Email">Email</label>
+          <input type="email" name="Email" id="Email" value="" placeholder="example@gmail.com" required>
+        </div>
+        <div>
+          <label for="Password">Password</label>
+          <input type="password" name="Password" id="Password" value="" required>
+        </div>
+        <div>
+          <label for="Morada">Morada</label>
+          <input type="text" name="Morada" id="Morada" value="" placeholder="Street, Number, Postal Code" required>
+        </div>
+        <div>
+          <label for="Genero">Genero</label>
+          <select id="Genero" name="Genero">
+            <option value="" disabled selected>Selecionar</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Feminino">Feminino</option>
+          </select>
+        </div>
+        <div>
+          <label for="DataNascimento">Data Nascimento</label>
+          <input type="date" name="DataNascimento" id="DataNascimento" value="" placeholder="01/01/1999" required>
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+
+      </div>
+    </form>
+    <button onclick="location.href='/users/list'" type="button">Cancel</button>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <h4>Users List</h4>
+    <button onclick="location.href='/users/client/addClient'" type="button">New Client</button>
+    <button onclick="location.href='/users/employee/addEmployee'" type="button">New Employee</button>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Genero</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Idade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i<users.length;i++) { %>
+            <tr>
+              <td>
+                <%=i+1%>
+              </td>
+              <td>
+                <%= users[i].Nome%>
+              </td>
+              <td>
+                <%=users[i].Genero%>
+              </td>
+              <td>
+                <%=users[i].Email%>
+              </td>
+              <td>
+                <%=users[i].Role%>
+              </td>
+              <td>
+                <%=users[i].Idade%>
+              </td>
+              <td><button onclick="location.href='/users/editUser/<%= users[i]._id%>'" type="button">EDIT</button></td>
+              <td><button onclick="location.href='/users/show/<%= users[i]._id%>'" type="button">DETAILS</button></td>
+              <td><button onclick="location.href='/users/delete/<%= users[i]._id%>'" type="button">DELETE</button></td>
+            </tr>
+            <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <div>
+      <h4>
+        <%= book.Titulo%>
+      </h4>
+      <div>
+        <table>
+          <tbody>
+            <tr>
+              <td>Titulo</td>
+              <td>:</td>
+              <td>
+                <%= book.Titulo %>
+              </td>
+            </tr>
+            <tr>
+              <td>Imagem</td>
+              <td>:</td>
+              <td><img src=<%=book.Imagem %>> </td>
+            </tr>
+            <tr>
+              <td>Autores</td>
+              <td>:</td>
+              <td>
+                <%= book.Autores %>
+              </td>
+            </tr>
+
+            <tr>
+              <td>Ano de Publicacao</td>
+              <td>:</td>
+              <td>
+                <%= book.AnoPublicacao %>
+              </td>
+            </tr>
+            <tr>
+              <td>Preco</td>
+              <td>:</td>
+              <td>
+                <%= book.Preco %>
+              </td>
+            </tr>
+            <tr>
+              <td>Editora</td>
+              <td>:</td>
+              <td>
+                <%= book.Editora %>
+              </td>
+            </tr>
+            <tr>
+              <td>Estado</td>
+              <td>:</td>
+              <td>
+                <%= book.Estado %>
+              </td>
+            </tr>
+            <tr>
+              <td>Stock</td>
+              <td>:</td>
+              <td>
+                <%= book.Stock %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button onclick="location.href='/books/list'" type="button">VOLTAR</button>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

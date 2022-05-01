@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <h4>New Book</h4>
+    <form action="/books/register" method="POST">
+      <div>
+        <div>
+          <label for="ISBN">ISBN</label>
+          <input type="hidden" name="id" value="">
+          <input type="text" name="ISBN" id="ISBN" value="" placeholder="ISBN Code" required>
+        </div>
+        <div>
+            <label for="Titulo">Titulo</label>
+            <input type="text" name="Titulo" id="Titulo" value="" placeholder="Livro Amarelo" required>
+          </div>
+        <div>
+          <label for="Autores">Autores</label>
+          <input type="text" name="Autores" id="Autores" value="" placeholder="One, Two, Three" required multiple>
+        </div>
+        <div>
+          <label for="AnoPublicacao">Ano Publicação</label>
+          <input type="number" name="AnoPublicacao" id="AnoPublicacao" value="" placeholder="19XX" required>
+        </div>
+        <div>
+          <label for="Preco">Preco</label>
+          <input type="number" step="any" name="Preco" id="Preco" value="" placeholder="99.99" required>
+        </div>
+        <div>
+            <label for="Editora">Editora</label>
+            <input type="text" name="Editora" id="Editora" value="" placeholder="Porto Editora" required>
+          </div>
+        <div>
+          <label for="Estado">Estado</label>
+          <select id="Estado" name="Estado">
+            <option value="" disabled selected>Selecionar</option>
+            <option value="Novo">Novo</option>
+            <option value="Usado">Usado</option>
+          </select>
+        </div>
+        <div>
+          <label for="Stock">Stock</label>
+          <input type="number" name="Stock" id="Stock" value="" placeholder="5" required>
+        </div>
+        <div>
+          <button type="submit">Submit</button>
+        </div>
+
+      </div>
+    </form>
+    <button onclick="location.href='/books/list'" type="button">Cancel</button>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

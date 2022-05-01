@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <h4>Books List</h4>
+    <button onclick="location.href='/books/addBook'" type="button">New Book</button>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Titulo</th>
+            <th>Autores</th>
+            <th>Editora</th>
+            <th>Preco</th>
+            <th>Estado</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for(var i=0; i<books.length;i++) { %>
+            <tr>
+              <td>
+                <%=i%>
+              </td>
+              <td>
+                <%=books[i].Titulo%>
+              </td>
+              <td>
+                <%=books[i].Autores%>
+              </td>
+              <td>
+                <%=books[i].Editora%>
+              </td>
+              <td>
+                <%=books[i].Preco%>
+              </td>
+              <td>
+                <%=books[i].Estado%>
+              </td>
+              <td>
+                <%=books[i].Stock%>
+              </td>
+              <td><button onclick="location.href='/books/editBook/<%= books[i]._id%>'" type="button">EDIT</button></td>
+              <td><button onclick="location.href='/books/show/<%= books[i]._id%>'" type="button">DETAILS</button></td>
+              <td><button onclick="location.href='/books/delete/<%= books[i]._id%>'" type="button">DELETE</button></td>
+            </tr>
+            <% } %>
+        </tbody>
+      </table>
+    </div>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

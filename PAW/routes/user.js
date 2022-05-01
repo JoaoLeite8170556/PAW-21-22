@@ -6,14 +6,19 @@ var userController = require('../controllers/userController');
 
 
 
+router.get('/client/addClient', userController.addClient);
+router.get('/employee/addEmployee', userController.addEmployee);
+router.get('/editUser/:id', userController.editUser);
 
-router.post('/cliente/create',userController.RegisterCliente);
-router.post('/funcionario/create',userController.RegisterFuncionario);
-router.get('/show/:id',userController.verifyToken,userController.GetUtilizador);
-router.get('/list',userController.verifyToken,userController.verifyAdmin,userController.list);
-router.put('/edit/:id',userController.editUser);
-router.put('/editPassword/:_id',userController.EditPassword);
+router.post('/client/register',userController.RegisterCliente);
+router.post('/employee/register',userController.RegisterFuncionario);
+router.get('/show/:id',userController.GetUtilizador);
+router.get('/list',userController.list);
+router.post('/update/:id',userController.Update);
+router.post('/editPassword/:_id',userController.EditPassword);
 router.post('/login',userController.login);
+router.get('/logout');
+router.get('/delete/:id', userController.DeleteUser);
 
 
 module.exports = router;
