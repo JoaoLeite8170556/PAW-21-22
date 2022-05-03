@@ -21,7 +21,7 @@ router.get('/addBook', bookController.addBook);
 router.get('/editBook/:id', bookController.editBook);
 
 router.post('/register',upload.single('Imagem'),bookController.RegisterBook);
-router.post('/updateStock/:id',bookController.UpdateStock);
+router.put('/updateStock/:id',bookController.UpdateStock);
 router.get('/delete/:id',bookController.DeleteBook);
 router.post('/buyBook/:id/:ISBN',bookController.buyBook);
 router.get('/list',bookController.allBooks);

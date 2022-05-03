@@ -1,6 +1,7 @@
 var Utilizador = require('../models/utilizador');
 var Livro = require('../models/book');
-const book = require('../models/book');
+
+
 
 
 
@@ -52,6 +53,7 @@ bookController.editBook = (req, res) =>{
 
 ///Método que permite editar os dados de um livro
 bookController.Update = function(req,res,next){
+
     Livro.findByIdAndUpdate(req.params.id,req.body,{ useFindAndModify: false},(err)=>{
         if (err) {
             return next(err);
@@ -61,15 +63,26 @@ bookController.Update = function(req,res,next){
 }
 
 ////Método para atualizar o stock de um determinado livro
-bookController.UpdateStock = function(req,res,next){
+bookController.UpdateStock = async function(req,res,next){
     const sotck = {
         Stock : req.body.Stock
     }
 
-    Livro.updateOne(req.params.ISBN,{$set:sotck}, { new: true },(err,livro)=>{
-        if(err){return next(err)}
+   const livroTemp =  await Livro.findOne({_id:req.params.id}).exec(); 
 
-        return res.status(200).json(livro);
+   if(!livroTemp){
+       return res.json({message:"Este livro não existe!!!"});
+   }
+
+   if(livroTemp.Stock == sotck.Stock){
+       return res.json({message:"Stock introduzido igual ao que já estava!!"});
+   }
+
+    Livro.findByIdAndUpdate(req.params.id,{$set:sotck},{ useFindAndModify: false},(err)=>{
+        if (err) {
+            return next(err);
+          }
+          return res.status(200).json({message:"Stock atualizado com sucesso!!"});
     });
 }
 
@@ -103,7 +116,7 @@ bookController.buyBook = async function(req,res){
     }
 
     if(book.Stock == 0){
-        return res.json({message:"Não pode conprar este livro, porque já não em stock!!!"});
+        return res.json({message:"Não pode comprar este livro, porque já não em stock!!!"});
     }
 
     let newStock = book.Stock - 1;
