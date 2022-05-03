@@ -9,12 +9,14 @@ var utilizadorSchema = new Schema({
   Genero: {
     type: String,
     enum: ["Masculino", "Feminino"],
+    required:true
   },
   Role: {
     type: String,
     enum: ["Administrador", "Funcionario", "Cliente"],
+    required:true
   },
-  DataNascimento: { type: String},
+  DataNascimento: { type: String,required:true},
   Idade: { type: Number, default:0},
   NumAquisicoes: { type: Number, default:0},
   QuantidadeVendas: { type: Number ,default:0},
