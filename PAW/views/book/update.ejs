@@ -11,11 +11,15 @@
   </header>
   <main>
     <h4>Edit Book</h4>
-    <form action="/books/update/<%=book._id %>" method="PUT  ">
+    <form action="/books/update/<%=book._id%>" method="PUT">
       <div>
         <div>
-          <label for="ISBN">ISBN</label>
           <input type="hidden" name="id" value="<%=book._id%>">
+          <!-- <label for="Imagem">Imagem</label>
+          <input type="file" name="Imagem" id="Imagem" value="<%=book.Imagem%>"> -->
+        </div>
+        <div>
+          <label for="ISBN">ISBN</label>
           <input type="text" name="ISBN" id="ISBN" value="<%=book.ISBN%>" placeholder="ISBN Code" required>
         </div>
         <div>
@@ -42,8 +46,8 @@
           <label for="Estado">Estado</label>
           <select id="Estado" name="Estado">
             <option value="" disabled selected>Selecionar</option>
-            <option value="Novo"<%=user.Estado == 'Novo' ? 'selected' : '' %>>Novo</option>
-            <option value="Usado"<%=user.Estado == 'Usado' ? 'selected' : '' %>>Usado</option>
+            <option value="Novo"<%=book.Estado == 'Novo' ? 'selected' : '' %>>Novo</option>
+            <option value="Usado"<%=book.Estado == 'Usado' ? 'selected' : '' %>>Usado</option>
           </select>
         </div>
         <div>

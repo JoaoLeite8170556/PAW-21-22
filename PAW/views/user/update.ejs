@@ -11,11 +11,11 @@
   </header>
   <main>
     <h4>Edit User</h4>
-    <form action="/users/update/<%=user._id %>" method="PUT">
+    <form action="/users/update/<%=user._id%>" method="PUT">
       <div>
         <div>
-          <label for="Nome">Name</label>
           <input type="hidden" name="id" value="<%=user._id%>">
+          <label for="Nome">Name</label>
           <input type="text" name="Nome" id="Nome" value="<%=user.Nome%>" placeholder="First and Last" required>
         </div>
         <div>
@@ -48,7 +48,7 @@
 
       </div>
     </form>
-    <button type="button">Cancel</button>
+    <button type="button" onclick="location.href='/users/list'">Cancel</button>
   </main>
   <footer>
     <%- include('../partials/footer.ejs'); %>

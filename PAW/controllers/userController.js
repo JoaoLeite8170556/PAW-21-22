@@ -73,13 +73,7 @@ userController.login = async (req, res) => {
           expiresIn: 86400,
         }
       );
-      res.status(200).send({
-        auth: true,
-        token: token,
-        email: user.Email,
-        _id: user._id,
-        role: user.Role,
-      });
+      res.redirect("/books/list");
     } else {
       res.send("Password incorreta");
     }
@@ -283,7 +277,6 @@ userController.verifyToken = function (req, res, next) {
       if (err) {
         return res.status(500).send({ auth: false, message: "Invalid Token" });
       }
-
       req.userId = decoded.id;
       req.role = decoded.role;
       next();

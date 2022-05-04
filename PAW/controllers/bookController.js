@@ -1,14 +1,20 @@
 var Utilizador = require('../models/utilizador');
 var Livro = require('../models/book');
 
-
-
-
-
 var bookController  = {};
 
 bookController.addBook = (req, res) =>{
     res.render('book/create');
+}
+
+bookController.editBook = (req, res) =>{
+    Livro.findById(req.params.id, (err, book) => {
+      if (err) {
+        res.status(400).json({ message: "Livro não encontrado!!!" });
+      } else {
+        res.render("book/update", { book : book });
+      }
+    })
 }
 
 ////Método que vai adicionar um livro na BD
@@ -21,7 +27,7 @@ bookController.RegisterBook = async function(req,res,next){
     }
 
     const livro = new Livro({
-        /* Imagem : req.file.path, */
+        /* Imagem : req.body.Imagem, */
         ISBN : req.body.ISBN,
         Titulo : req.body.Titulo,
         Autores : req.body.Autores,
@@ -39,16 +45,6 @@ bookController.RegisterBook = async function(req,res,next){
     });
 
 
-}
-
-bookController.editBook = (req, res) =>{
-    Livro.findById(req.params.id, (err, book) => {
-      if (err) {
-        res.status(400).json({ message: "Livro não encontrado!!!" });
-      } else {
-        res.render("/book/update", { book : book });
-      }
-    })
 }
 
 ///Método que permite editar os dados de um livro

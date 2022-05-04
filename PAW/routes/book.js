@@ -15,12 +15,13 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage : storage});
 
-var bookController = require('../controllers/bookController');
+const bookController = require('../controllers/bookController');
+const userController = require('../controllers/userController');
 
 router.get('/addBook', bookController.addBook);
 router.get('/editBook/:id', bookController.editBook);
 
-router.post('/register',upload.single('Imagem'),bookController.RegisterBook);
+router.post('/register', bookController.RegisterBook);
 router.put('/updateStock/:id',bookController.UpdateStock);
 router.get('/delete/:id',bookController.DeleteBook);
 router.post('/buyBook/:id/:ISBN',bookController.buyBook);

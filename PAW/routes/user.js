@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 
-var userController = require('../controllers/userController');
+const userController = require('../controllers/userController');
 
 
 
@@ -18,7 +18,7 @@ router.put('/update/:id',userController.Update);
 router.post('/editPassword/:_id',userController.EditPassword);
 router.post('/login',userController.login);
 router.get('/logout');
-router.get('/delete/:id', userController.DeleteUser);
+router.get('/delete/:id',userController.DeleteUser);
 
 
 module.exports = router;
