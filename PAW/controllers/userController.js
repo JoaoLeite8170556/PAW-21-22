@@ -239,7 +239,6 @@ userController.list = function (req, res, next) {
       console.log("Erro a obter os dados da BD");
       next(err);
     } else {
-      console.log(req.cookies["user"].Genero);
       //res.status(201).json(utilizadores);
       res.render("user/list", { users: users });
     }
@@ -256,6 +255,16 @@ userController.Update = function (req, res, next) {
   });
 };
 
+userController.changePassword = (req, res) =>{
+  Utilizador.findById(req.params.id, (err, user) => {
+    if (err) {
+      res.status(400).json({ message: "Utilizador não encontrado!!!" });
+    } else {
+      res.render("user/changePassword", { user: user });
+    }
+  })
+}
+
 ////Método para atualizar a password
 userController.EditPassword = async function (req, res) {
   ///Verificamos se a password não coencidem
@@ -266,9 +275,9 @@ userController.EditPassword = async function (req, res) {
   ///Verifica se o Email não existe!!
   var email = req.body.Email;
 
-  const userExit = await Utilizador.findOne({ Email: email }).exec();
+  const user = await Utilizador.findOne({ Email: email }).exec();
 
-  if (!userExit) {
+  if (!user) {
     return res.status(409).json({ message: "Este email não existe!!" });
   }
 
@@ -277,13 +286,13 @@ userController.EditPassword = async function (req, res) {
 
   ///Local onde vamos atualizar a password
   Utilizador.findByIdAndUpdate(
-    { _id: req.params._id },
+    { _id: req.params.id },
     { Password: hashedPassword },
-    function (err, result) {
+    function (err) {
       if (err) {
         res.status(404).json({ message: "Utilizador não encontrado!!!!" });
       }
-      res.status(200).json({ message: result });
+      res.redirect("/users/show/"+ user._id);
     }
   );
 };
@@ -303,20 +312,20 @@ userController.verifyToken = function (req, res, next) {
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      let erro = "Erro a encontrar a informação";
-      return res.redirect("/",{erro});
+      console.log("Erro a encontrar a informação");
+      return res.redirect("/");
     }else if(user.Role == "Cliente" || user.Role == "Funcionario" || user.Role =="Administrador"){
       return next();
     }else{
-      let erro = "Não tem permissões para aceder aqui!";
-      return res.redirect("/",{erro});
+      console.log("Não tem permissões para aceder aqui!");
+      return res.redirect("/");
     }
   })
 
     
 };
 
-/// Verifica se ele utilizador
+/// Verifica se ele funcionario
 userController.verifyFuncionario = function (req, res, next) {
   var token = req.cookies["token"];
   var id = req.cookies["user"]._id;
@@ -330,13 +339,13 @@ userController.verifyFuncionario = function (req, res, next) {
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      let erro = "Erro a encontrar a informação";
-      return res.redirect("/",{erro});
+      console.log("Erro a encontrar a informação");
+      return res.redirect("/");
     }else if(user.Role == "Funcionario"){
       return next();
     }else{
-      let erro = "Não tem permissões para aceder aqui!";
-      return res.redirect("/",{erro});
+      console.log("Não tem permissões para aceder aqui!");
+      return res.redirect("/");
     }
   })
 
@@ -356,13 +365,13 @@ userController.verifyAdmin = function (req, res, next) {
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      let erro = "Erro a encontrar a informação";
-      return res.redirect("/",{erro});
+      console.log("Erro a encontrar a informação");
+      return res.redirect("/");
     }else if(user.Role =="Administrador"){
       return next();
     }else{
-      let erro = "Não tem permissões para aceder aqui!";
-      return res.redirect("/",{erro});
+      console.log("Não tem permissões para aceder aqui!");
+      return res.redirect("/");
     }
   })
 
@@ -385,13 +394,13 @@ userController.verifyCliente = function (req, res, next) {
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      let erro = "Erro a encontrar a informação";
-      return res.redirect("/",{erro});
+      console.log("Erro a encontrar a informação");
+      return res.redirect("/");
     }else if(user.Role == "Cliente"){
       return next();
     }else{
-      let erro = "Não tem permissões para aceder aqui!";
-      return res.redirect("/",{erro});
+      console.log("Não tem permissões para aceder aqui!");
+      return res.redirect("/");
     }
   })
 

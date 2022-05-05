@@ -1,8 +1,14 @@
 <div>
   <h3>LIBRARY</h3>
   <table>
-    <td><button onclick="location.href='/'" type="button">HOME</button></td>
     <td><button onclick="location.href='/users/list'" type="button">USERS</button></td>
-    <td><button onclick="location.href='/books/list'" type="button">LIVROS</button></td>
+    <td>
+      <select name="Books" onchange="location = this.value;">
+        <option value="" disabled selected>LIVROS</option>
+        <option value="/books/list">ALL</option>
+        <option value="/books/new">NEW</option>
+        <option value="/books/used">USED</option>
+       </select>
+    </td>
   </table>
 </div>

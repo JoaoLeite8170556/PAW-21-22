@@ -199,26 +199,26 @@ bookController.getBooksWithoutStock = function(req,res,next){
 }
 ///Método que retorna livros que tenham o estado "Novo"
 bookController.getBooksNovos = function(req,res,next){
-    Livro.find({Estado : 'Novo'}).exec((err,livros)=>{
+    Livro.find({Estado : 'Novo'}).exec((err,books)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
             next(err);
         }else{
-            console.log(livros);
-            res.status(201).json(livros);
+            console.log(books);
+            res.render("book/list", {books : books});
         }
     });
 }
 
 ////Método que retorna livros que estão com o estado "Usado"
 bookController.getBooksUsados = function(req,res,next){
-    Livro.find({Estado : 'Usado'}).exec((err,livros)=>{
+    Livro.find({Estado : 'Usado'}).exec((err,books)=>{
         if(err){
             console.log("Erro a obter os dados da BD");
             next(err);
         }else{
-            console.log(livros);
-            res.status(201).json(livros);
+            console.log(books);
+            res.render("book/list", {books : books});
         }
     });
 }

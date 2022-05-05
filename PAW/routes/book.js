@@ -22,15 +22,15 @@ router.get('/addBook', bookController.addBook);
 router.get('/editBook/:id', bookController.editBook);
 
 router.post('/register', bookController.RegisterBook);
-router.put('/updateStock/:id',bookController.UpdateStock);
-router.get('/delete/:id',bookController.DeleteBook);
+router.post('/updateStock/:id',bookController.UpdateStock);
+router.get('/delete/:id',userController.verifyFuncionario,bookController.DeleteBook);
 router.put('/buyBook/:id',bookController.buyBook);
 router.get('/list',bookController.allBooks);
 router.get('/show/:id',bookController.getBook);
 router.get('/getBooksWtihoutStock',bookController.getBooksWithoutStock);
-router.get('/getBooksNovos',bookController.getBooksNovos);
-router.get('/getBooksUsados',bookController.getBooksUsados);
-router.put('/update/:id', bookController.Update);
+router.get('/new',bookController.getBooksNovos);
+router.get('/used',bookController.getBooksUsados);
+router.post('/update/:id', bookController.Update);
 
 
 module.exports = router;
