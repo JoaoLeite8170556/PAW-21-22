@@ -3,7 +3,7 @@ var Livro = require("../models/book");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../jwt_secret/config");
-const { text } = require("body-parser");
+
 
 var userController = {};
 
@@ -52,34 +52,39 @@ function getAge(dateString) {
 }
 
 userController.login = async (req, res) => {
-  let user = await Utilizador.findOne({ Email: req.body.Email });
+
+  let user = await Utilizador.findOne({Email: req.body.Email});
 
   ////Utilizador não existe na Base de Dados
   if (!user) {
-    return res.status(400).json({ message: "Este utilizador não existe!!!" });
+    return res.status(400).json({ message: "Este utilizador não existe!" });
+  }
+  
+  var passwordValid = await bcrypt.compare(req.body.Password, user.Password)
+
+  if(!passwordValid){
+    return res.json({message:"Esta password não existe!"});
   }
 
-  try {
-    if (await bcrypt.compare(req.body.Password, user.Password)) {
-      const token = jwt.sign(
-        {
-          Nome: user.Nome,
-          Email: user.Email,
-          Role: user.Role,
-          id: user._id,
-        },
-        config.secret,
-        {
-          expiresIn: 86400,
-        }
-      );
-      res.redirect("/books/list");
-    } else {
-      res.send("Password incorreta");
+  const token = jwt.sign(
+    {
+      Nome: user.Nome,
+      Email: user.Email,
+      Role: user.Role,
+      id: user._id
+    },
+    config.secret,
+    {
+      expiresIn: 86400
     }
-  } catch (err) {
-    res.status(500).send(err);
-  }
+  );
+  res.cookie("token",token);
+  res.cookie("user",user);
+  
+
+  console.log(req.cookies["user"]);
+
+  return res.redirect('/users/list');
 };
 
 ///Método que vai servir para guardar um Cliente
@@ -218,7 +223,7 @@ userController.list = function (req, res, next) {
       console.log("Erro a obter os dados da BD");
       next(err);
     } else {
-      console.log(users);
+      console.log(req.cookies["user"].Genero);
       //res.status(201).json(utilizadores);
       res.render("user/list", { users: users });
     }
@@ -268,21 +273,29 @@ userController.EditPassword = async function (req, res) {
 };
 
 userController.verifyToken = function (req, res, next) {
-  var token = req.headers["x-access-token"];
+  var token = req.cookies["token"];
+
+  console.log(token);
 
   if (!token) {
-    return res.status(403).send({ auth: false, message: "No token provided" });
-  } else {
-    jwt.verify(token, config.secret, function (err, decoded) {
-      if (err) {
-        return res.status(500).send({ auth: false, message: "Invalid Token" });
-      }
-      req.userId = decoded.id;
-      req.role = decoded.role;
-      next();
-    });
+    return res.redirect("/");
   }
-};
+
+  jwt.verify(token, config.secret, function(err,decoded){
+    if(err){
+      return res.json({message:""});
+    }
+    Utilizador.findOne({_id: decoded.id}, function(err,user){
+      if(err){
+        return res.json({message:"Erro a procurar utilizador!!!"});
+      }else if(user.Role == "Utilizador"|| user.Role=="Administrador" || user.Role =="Cliente"){
+        return next();
+      }else{
+        ///Tem que fazer utilizadores
+      }
+    })
+  })
+}
 
 userController.verifyAdmin = function (req, res, next) {
   Utilizador.findById(req.userId, function (err, user) {
@@ -303,6 +316,37 @@ userController.verifyAdmin = function (req, res, next) {
 };
 
 userController.verifyCliente = function (req, res, next) {
+
+  var role = req.cookies["Role"];
+  var token = req.cookies["token"];
+  var id = req.cookies["id"];
+
+  console.log(token);
+
+  if(!token){
+    return res.redirect("/");
+  }
+
+  jwt.verify(token,config.secret,function(err,decoded){
+    if(err){
+      let erro = "Erro a validar a página!";
+      return res.redirect("/",{erro});
+    }
+
+    Utilizador.findOne({id},function(err,user){
+      if(err){
+        let erro = "Erro a encontrar a informação";
+        return res.redirect("/",{erro});
+      }else if(user.Role == "Cliente"){
+        return next();
+      }else{
+        let erro = "Não tem permissões para aceder aqui!";
+        return res.redirect("/",{erro});
+      }
+    })
+  });
+
+
   Utilizador.findById(req.userId, function (err, user) {
     if (err) {
       return res.status(500).send("There was a problem finding the user.");

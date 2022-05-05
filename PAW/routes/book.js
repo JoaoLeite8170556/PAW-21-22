@@ -24,7 +24,7 @@ router.get('/editBook/:id', bookController.editBook);
 router.post('/register', bookController.RegisterBook);
 router.put('/updateStock/:id',bookController.UpdateStock);
 router.get('/delete/:id',bookController.DeleteBook);
-router.post('/buyBook/:id/:ISBN',bookController.buyBook);
+router.put('/buyBook/:id',bookController.buyBook);
 router.get('/list',bookController.allBooks);
 router.get('/show/:id',bookController.getBook);
 router.get('/getBooksWtihoutStock',bookController.getBooksWithoutStock);

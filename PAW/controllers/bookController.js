@@ -96,16 +96,16 @@ bookController.DeleteBook = function(req,res){
 
 /// Método para comprar um livro
 bookController.buyBook = async function(req,res){
+    var id = req.cookies["user"]._id;
+    console.log(id,req.params.id);
 
-    console.log(req.params.id,req.params.ISBN);
-    
-    const utilizador = await Utilizador.findOne({_id : req.params.id}).exec();
+    const utilizador = await Utilizador.findOne({_id : id}).exec();
 
     if(!utilizador){
         return res.status(404).json({message: "Este utilizador não existe!!"});
     }
 
-    const book = await Livro.findOne({isbn: req.params.ISBN}).exec();
+    const book = await Livro.findOne({_id: req.params.id}).exec();
 
     if(!book){
         return res.status(404).json({message: "Este livro não existe!!!"});
@@ -119,9 +119,20 @@ bookController.buyBook = async function(req,res){
 
     console.log(newStock);
 
-    Utilizador.findOneAndUpdate({_id:req.params.id},
+    ////Metodo para adicionar o livro ao utilizador
+    Utilizador.findOneAndUpdate({_id:id},
         {$push:{LivrosComprados: book}},
         {new: true, upsert: true },
+        function(error,success){
+            if(error){
+                console.log(error);
+            }else{
+                console.log(success);
+            }
+        }).exec();
+
+    /// Metodo para atualizar o stock do livro
+    Livro.findOneAndUpdate({_id:req.params.id},{$set:{Stock:newStock}},{new:true,upsert:true},
         function(error,success){
             if(error){
                 console.log(error);
