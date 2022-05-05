@@ -12,7 +12,7 @@ router.get('/editUser/:id',userController.verifyToken,userController.editUser);
 
 router.post('/client/register',userController.RegisterCliente);
 router.post('/employee/register',userController.RegisterFuncionario);
-router.get('/show/:id',userController.verifyToken,userController.GetUtilizador);
+router.get('/show/:id',userController.verifyCliente,userController.GetUtilizador);
 router.get('/list',userController.list);
 router.put('/update/:id',userController.Update);
 router.post('/editPassword/:_id',userController.EditPassword);

@@ -130,7 +130,7 @@ userController.RegisterCliente = async function (req, res, next) {
     DataNascimento: req.body.DataNascimento,
     Role: "Cliente",
     Idade: idade,
-    CategoriaIdade: categoriaIdade,
+    CategoriaIdade: categoriaIdade
   });
 
   user.save(function (err, cliente) {
@@ -141,7 +141,7 @@ userController.RegisterCliente = async function (req, res, next) {
   });
 };
 
-////Método que vai criar um Funcionário
+//// Método que vai criar um Funcionário
 userController.RegisterFuncionario = async function (req, res, next) {
 
   var dataNascimento = req.body.DataNascimento;
@@ -272,98 +272,118 @@ userController.EditPassword = async function (req, res) {
   );
 };
 
+
+/// Verifica se tem token
 userController.verifyToken = function (req, res, next) {
   var token = req.cookies["token"];
+  var id = req.cookies["user"]._id;
 
   console.log(token);
 
-  if (!token) {
-    return res.redirect("/");
-  }
-
-  jwt.verify(token, config.secret, function(err,decoded){
-    if(err){
-      return res.json({message:""});
-    }
-    Utilizador.findOne({_id: decoded.id}, function(err,user){
-      if(err){
-        return res.json({message:"Erro a procurar utilizador!!!"});
-      }else if(user.Role == "Utilizador"|| user.Role=="Administrador" || user.Role =="Cliente"){
-        return next();
-      }else{
-        ///Tem que fazer utilizadores
-      }
-    })
-  })
-}
-
-userController.verifyAdmin = function (req, res, next) {
-  Utilizador.findById(req.userId, function (err, user) {
-    if (err) {
-      return res.status(500).send("There was a problem finding the user.");
-    }
-    if (!user) return res.status(404).send("No user found.");
-
-    if (user.Role === "Administrador") {
-      next();
-    } else {
-      return res.status(403).send({
-        auth: false,
-        message: "Access Denied",
-      });
-    }
-  });
-};
-
-userController.verifyCliente = function (req, res, next) {
-
-  var role = req.cookies["Role"];
-  var token = req.cookies["token"];
-  var id = req.cookies["id"];
-
-  console.log(token);
 
   if(!token){
     return res.redirect("/");
   }
 
-  jwt.verify(token,config.secret,function(err,decoded){
+  Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      let erro = "Erro a validar a página!";
+      let erro = "Erro a encontrar a informação";
+      return res.redirect("/",{erro});
+    }else if(user.Role == "Cliente" || user.Role == "Funcionario" || user.Role =="Administrador"){
+      return next();
+    }else{
+      let erro = "Não tem permissões para aceder aqui!";
       return res.redirect("/",{erro});
     }
+  })
 
-    Utilizador.findOne({id},function(err,user){
-      if(err){
-        let erro = "Erro a encontrar a informação";
-        return res.redirect("/",{erro});
-      }else if(user.Role == "Cliente"){
-        return next();
-      }else{
-        let erro = "Não tem permissões para aceder aqui!";
-        return res.redirect("/",{erro});
-      }
-    })
-  });
-
-
-  Utilizador.findById(req.userId, function (err, user) {
-    if (err) {
-      return res.status(500).send("There was a problem finding the user.");
-    }
-    if (!user) return res.status(404).send("No user found.");
-
-    if (user.Role === "Cliente") {
-      next();
-    } else {
-      return res.status(403).send({
-        auth: false,
-        message: "Access Denied",
-      });
-    }
-  });
+    
 };
 
+
+userController.verifyFuncionario = function (req, res, next) {
+  var token = req.cookies["token"];
+  var id = req.cookies["user"]._id;
+
+  console.log(token);
+
+
+  if(!token){
+    return res.redirect("/");
+  }
+
+  Utilizador.findOne({_id:id},function(err,user){
+    if(err){
+      let erro = "Erro a encontrar a informação";
+      return res.redirect("/",{erro});
+    }else if(user.Role == "Funcionario"){
+      return next();
+    }else{
+      let erro = "Não tem permissões para aceder aqui!";
+      return res.redirect("/",{erro});
+    }
+  })
+
+}
+
+/// Verificar se é administrador
+userController.verifyAdmin = function (req, res, next) {
+  var token = req.cookies["token"];
+  var id = req.cookies["user"]._id;
+
+  console.log(token);
+
+
+  if(!token){
+    return res.redirect("/");
+  }
+
+  Utilizador.findOne({_id:id},function(err,user){
+    if(err){
+      let erro = "Erro a encontrar a informação";
+      return res.redirect("/",{erro});
+    }else if(user.Role =="Administrador"){
+      return next();
+    }else{
+      let erro = "Não tem permissões para aceder aqui!";
+      return res.redirect("/",{erro});
+    }
+  })
+
+};
+
+
+// Verifica se é Cliente
+userController.verifyCliente = function (req, res, next) {
+
+  var token = req.cookies["token"];
+  var id = req.cookies["user"]._id;
+
+  console.log(token);
+
+
+  if(!token){
+    return res.redirect("/");
+  }
+
+
+  Utilizador.findOne({_id:id},function(err,user){
+    if(err){
+      let erro = "Erro a encontrar a informação";
+      return res.redirect("/",{erro});
+    }else if(user.Role == "Cliente"){
+      return next();
+    }else{
+      let erro = "Não tem permissões para aceder aqui!";
+      return res.redirect("/",{erro});
+    }
+  })
+
+    
+};
+
+
+//// Verifica se é Funcionário
 userController.verifyFuncionario = function (req, res, next) {
   Utilizador.findById(req.userId, function (err, user) {
     if (err) {
@@ -371,7 +391,7 @@ userController.verifyFuncionario = function (req, res, next) {
     }
     if (!user) return res.status(404).send("No user found.");
 
-    if (user.Role === "Funcionario") {
+    if (user.Role == "Funcionario") {
       next();
     } else {
       return res.status(403).send({
