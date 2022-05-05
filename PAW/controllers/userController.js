@@ -78,10 +78,18 @@ userController.login = async (req, res) => {
       expiresIn: 86400
     }
   );
-  res.cookie("token",token);
-  res.cookie("user",user);
-  
 
+  var utilizador = {
+    _id : user._id,
+    Nome : user.Nome,
+    Email : user.Email,
+    Role : user.Role,
+    CategoriaIdade: user.CategoriaIdade
+  };
+
+  res.cookie("token",token);
+  res.cookie("user",utilizador);
+  
   console.log(req.cookies["user"]);
 
   return res.redirect('/users/list');
