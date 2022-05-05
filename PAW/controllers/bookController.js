@@ -116,6 +116,7 @@ bookController.buyBook = async function(req,res){
     }
 
     let newStock = book.Stock - 1;
+    let newAquisicoes = utilizador.NumAquisicoes + 1;
 
     console.log(newStock);
 
@@ -140,6 +141,19 @@ bookController.buyBook = async function(req,res){
                 console.log(success);
             }
         }).exec();
+
+    /// Método para atualizar o num aquisições    
+    Utilizador.findOneAndUpdate({_id:id},
+        {$set:{NumAquisicoes : newAquisicoes}},
+        {new: true, upsert: true },
+        function(error,success){
+            if(error){
+                console.log(error);
+            }else{
+                console.log(success);
+            }
+    }).exec();    
+        
 
     return res.status(200).json({
         message: "Este livro foi comprado com sucesso!!!"

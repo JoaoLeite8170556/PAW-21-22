@@ -87,6 +87,14 @@ userController.login = async (req, res) => {
   return res.redirect('/users/list');
 };
 
+/// Metodo para fazer logout 
+userController.logOut = function(req,res){
+  res.clearCookie("user");
+  res.clearCookie("token");
+
+  return res.redirect("/");
+}
+
 ///Método que vai servir para guardar um Cliente
 userController.RegisterCliente = async function (req, res, next) {
   var dataNascimento = req.body.DataNascimento;
@@ -300,7 +308,7 @@ userController.verifyToken = function (req, res, next) {
     
 };
 
-
+/// Verifica se ele utilizador
 userController.verifyFuncionario = function (req, res, next) {
   var token = req.cookies["token"];
   var id = req.cookies["user"]._id;
@@ -382,24 +390,5 @@ userController.verifyCliente = function (req, res, next) {
     
 };
 
-
-//// Verifica se é Funcionário
-userController.verifyFuncionario = function (req, res, next) {
-  Utilizador.findById(req.userId, function (err, user) {
-    if (err) {
-      return res.status(500).send("There was a problem finding the user.");
-    }
-    if (!user) return res.status(404).send("No user found.");
-
-    if (user.Role == "Funcionario") {
-      next();
-    } else {
-      return res.status(403).send({
-        auth: false,
-        message: "Access Denied",
-      });
-    }
-  });
-};
 
 module.exports = userController;
