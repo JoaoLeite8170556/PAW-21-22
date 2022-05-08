@@ -91,7 +91,7 @@ userController.login = async (req, res) => {
   res.cookie("user",utilizador);
   
 
-  return res.redirect('/users/list');
+  return res.redirect('/books/list'), utilizador;
 };
 
 /// Metodo para fazer logout 
@@ -220,6 +220,18 @@ userController.GetUtilizador = function (req, res) {
   });
 };
 
+userController.getLoggedUser = function (req, res) {
+  var id = req.cookies["user"]._id;
+
+  Utilizador.findById(id, (err, user) => {
+    if (err) {
+      res.status(400).json({ message: "Utilizador não encontrado!!!" });
+    } else {
+      res.render("user/details", { user: user });
+    }
+  });
+};
+
 ///Método que elimina o Utilizador
 userController.DeleteUser = function (req, res) {
   Utilizador.findByIdAndRemove(req.params.id, (err) => {
@@ -301,9 +313,6 @@ userController.EditPassword = async function (req, res) {
 userController.verifyToken = function (req, res, next) {
   var token = req.cookies["token"];
   var id = req.cookies["user"]._id;
-
-  console.log(token);
-
 
   if(!token){
     return res.redirect("/");

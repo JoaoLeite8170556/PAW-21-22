@@ -21,16 +21,16 @@ const userController = require('../controllers/userController');
 router.get('/addBook', bookController.addBook);
 router.get('/editBook/:id', bookController.editBook);
 
-router.post('/register', bookController.RegisterBook);
-router.post('/updateStock/:id',bookController.UpdateStock);
+router.post('/register', userController.verifyToken, bookController.RegisterBook);
+router.post('/updateStock/:id',userController.verifyToken, bookController.UpdateStock);
 router.get('/delete/:id',userController.verifyFuncionario,bookController.DeleteBook);
 router.put('/buyBook/:id',bookController.buyBook);
-router.get('/list',bookController.allBooks);
-router.get('/show/:id',bookController.getBook);
+router.get('/list',userController.verifyToken, bookController.allBooks);
+router.get('/show/:id',userController.verifyToken, bookController.getBook);
 router.get('/getBooksWtihoutStock',bookController.getBooksWithoutStock);
-router.get('/new',bookController.getBooksNovos);
-router.get('/used',bookController.getBooksUsados);
-router.post('/update/:id', bookController.Update);
+router.get('/new',userController.verifyToken, bookController.getBooksNovos);
+router.get('/used',userController.verifyToken, bookController.getBooksUsados);
+router.post('/update/:id',bookController.Update);
 
 
 module.exports = router;
