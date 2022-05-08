@@ -90,7 +90,6 @@ userController.login = async (req, res) => {
   res.cookie("token",token);
   res.cookie("user",utilizador);
   
-  console.log(req.cookies["user"]);
 
   return res.redirect('/users/list');
 };

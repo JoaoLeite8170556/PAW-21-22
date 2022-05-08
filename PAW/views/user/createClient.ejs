@@ -51,14 +51,17 @@
 
               <div class ="form-group">
                 <label for="DataNascimento">Data Nascimento</label>
-          <input type="date" name="DataNascimento" id="DataNascimento" value="" placeholder="01/01/1999" class = "form-control" required>>
+          <input type="date" name="DataNascimento" id="DataNascimento" value="" placeholder="01/01/1999" class = "form-control" required>
               </div>
 
               <div class = "box-footer">
                 <button type="submit" class = "btn btn-primary">
                   Submit
                 </button>
-                <button onclick="location.href='/users/list'" type="button" class = "btn btn-danger">Cancel</button>
+
+                  <button onclick="location.href='/users/list'" type="button" class = "btn btn-danger">Cancel</button>
+                    <button onclick="location.href='/'" type="button" class = "btn btn-danger">Cancel</button>
+                 
               </div>
             </form>
           
@@ -66,15 +69,12 @@
         </div>
       </div>
     </div>
-
-
-
-
   
   </main>
   <footer>
     <%- include('../partials/footer.ejs'); %>
   </footer>
+  
 </body>
 
 </html>
