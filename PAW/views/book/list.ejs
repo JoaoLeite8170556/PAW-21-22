@@ -3,6 +3,8 @@
 
 <head>
   <%- include('../partials/head.ejs'); %>
+
+  
 </head>
 
 <body>
@@ -10,11 +12,19 @@
     <%- include('../partials/header.ejs'); %>
   </header>
   <main>
-    <h4>Books List</h4>
-    <button onclick="location.href='/books/addBook'" type="button">New Book</button>
-    <div>
-      <table>
-        <thead>
+    
+    <div class ="container">
+      <div class = "row">
+        <h4>Books List</h4>
+      </div>
+      
+      <div class = "row">
+        <div class = "col-lg-3">
+          <a href = "/books/addBook" class = "btn btn-primary btn-sm mb-3"> New Book</a>
+        </div>
+      </div>
+      <table class = "table table-striped table-bordered">
+        <thead class = "table-dark">
           <tr>
             <th>#</th>
             <th>Titulo</th>
@@ -23,40 +33,53 @@
             <th>Preco</th>
             <th>Estado</th>
             <th>Stock</th>
+            <th> Actions </th>
           </tr>
         </thead>
+        
         <tbody>
           <% for(var i=0; i<books.length;i++) { %>
-            <tr>
-              <td>
-                <%=i%>
-              </td>
-              <td>
-                <%=books[i].Titulo%>
-              </td>
-              <td>
-                <%=books[i].Autores%>
-              </td>
-              <td>
-                <%=books[i].Editora%>
-              </td>
-              <td>
-                <%=books[i].Preco%>
-              </td>
-              <td>
-                <%=books[i].Estado%>
-              </td>
-              <td>
-                <%=books[i].Stock%>
-              </td>
-              <td><button onclick="location.href='/books/editBook/<%= books[i]._id%>'" type="button">EDIT</button></td>
-              <td><button onclick="location.href='/books/show/<%= books[i]._id%>'" type="button">DETAILS</button></td>
-              <td><button onclick="location.href='/books/delete/<%= books[i]._id%>'" type="button">DELETE</button></td>
-            </tr>
-            <% } %>
+          <tr>
+            <td>
+              <%=i%>
+            </td>
+            <td>
+              <%=books[i].Titulo%>
+            </td>
+            <td>
+              <%=books[i].Autores%>
+            </td>
+            <td>
+              <%=books[i].Editora%>
+            </td>
+            <td>
+              <%=books[i].Preco%>
+            </td>
+            <td>
+              <%=books[i].Estado%>
+            </td>
+            <td>
+              <%=books[i].Stock%>
+            </td>
+            <td>
+              <a href = "/books/editBook/<%= books[i]._id%>"
+               class = "btn btn-secondary">Update</a>
+              
+              <a href = "/books/show/<%= books[i]._id%>"
+               class = "btn btn-info">Details</a>
+
+               <a href = "/books/delete/<%= books[i]._id%>"
+                class = "btn btn-danger">Delete</a>
+               
+            </td>
+          </tr>
+          <% } %>
         </tbody>
+      
       </table>
+      
     </div>
+    
   </main>
   <footer>
     <%- include('../partials/footer.ejs'); %>

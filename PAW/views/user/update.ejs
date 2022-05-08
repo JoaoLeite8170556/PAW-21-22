@@ -10,45 +10,74 @@
     <%- include('../partials/header.ejs'); %>
   </header>
   <main>
-    <h4>Edit User</h4>
-    <form action="/users/update/<%=user._id%>" method="POST">
-      <div>
-        <div>
-          <input type="hidden" name="id" value="<%=user._id%>">
-          <label for="Nome">Name</label>
-          <input type="text" name="Nome" id="Nome" value="<%=user.Nome%>" placeholder="First and Last" required>
-        </div>
-        <div>
-          <label for="Email">Email</label>
-          <input type="email" name="Email" id="Email" value="<%=user.Email%>" placeholder="example@gmail.com" required>
-        </div>
-        <div>
-          <label for="Password">Password</label>
-          <input type="password" name="Password" id="Password" value="<%=user.Password%>" required>
-        </div>
-        <div>
-          <label for="Morada">Morada</label>
-          <input type="text" name="Morada" id="Morada" value="<%=user.Morada%>" placeholder="Street, Number, Postal Code" required>
-        </div>
-        <div>
-            <label for="Genero">Genero</label>
-          <select id="Genero" name="Genero">
+    <div class = "container">
+      <div class = "row">
+        <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+          <h1 class = "text-center"> Edit User </h1>
+          <div class = "card-body">
+            <form action="/users/update/<%=user._id%>"  method="POST">
+              <div class ="form-group">
+                <input type="hidden" name="id" value="<%=user._id%>">
+                <label for="Nome">Name</label>
+                <input type="text" name="Nome" id="Nome" value="<%=user.Nome%>" placeholder="First and Last" class = "form-control" required>
+              </div>
+              
+              <div class ="form-group">
+                <label for="Email">Email</label>
+                <input type="email" name="Email" id="Email" value="<%=user.Email%>" placeholder="example@gmail.com" class = "form-control"required>
+              </div>
+              
+              <div class ="form-group">
+                <label for="Password">Password</label>
+          <input type="password" name="Password" id="Password" value="<%=user.Password%>" class = "form-control" required>
+              </div>
+              
+              <div class ="form-group">
+                <label for="Morada">Morada</label>
+                <input type="text" name="Morada" id="Morada" value="<%=user.Morada%>" placeholder="Street, Number, Postal Code" class = "form-control" required>
+              </div>
+
+              <div class ="form-group">
+                <label for="Genero">Genero</label>
+          <select id="Genero" name="Genero" class = "form-control">
             <option value="" disabled selected>Selecionar</option>
             <option value="Masculino" <%=user.Genero == 'Masculino' ? 'selected' : '' %>>Masculino</option>
             <option value="Feminino" <%=user.Genero == 'Feminino' ? 'selected' : '' %>>Feminino</option>
           </select>
-        </div>
-        <div>
-          <label for="DataNascimento">Data Nascimento</label>
-          <input type="date" name="DataNascimento" id="DataNascimento" value="<%=user.DataNascimento%>" required>
-        </div>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
+              </div>
 
+              <div class ="form-group">
+                <label for="DataNascimento">Data Nascimento</label>
+          <input type="date" name="DataNascimento" id="DataNascimento" value="<%=user.DataNascimento%>" class = "form-control" required>
+              </div>
+
+              <div class = "box-footer">
+                <button type="submit" class = "btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </form>
+            <button onclick="location.href='/users/list'" type="button" class = "btn btn-danger">Cancel</button>
+          </div>
+        </div>
       </div>
-    </form>
-    <button type="button" onclick="location.href='/users/list'">Cancel</button>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
   </main>
   <footer>
     <%- include('../partials/footer.ejs'); %>
