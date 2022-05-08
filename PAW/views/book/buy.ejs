@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('../partials/head.ejs'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('../partials/header.ejs'); %>
+  </header>
+  <main>
+    <div class = "container">
+      <div class = "row">
+        <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+          <h4 class = "text-center"> Buy Book </h4>
+          <div class = "card-body">
+            <form action="/books/buyBook/<%=book._id%>" method="POST">
+                <table>
+                    <tbody>
+                      <tr>
+                        <td>Titulo</td>
+                        <td>:</td>
+                        <td>
+                          <%= book.Titulo %>
+                        </td>
+                      </tr>
+                      <!-- <tr>
+                        <td>Imagem</td>
+                        <td>:</td>
+                        <td><img src= <%=book.Imagem%></img></td>
+                      </tr> -->
+                      <tr>
+                        <td>Autores</td>
+                        <td>:</td>
+                        <td>
+                          <%= book.Autores %>
+                        </td>
+                      </tr>
+          
+                      <tr>
+                        <td>Ano de Publicacao</td>
+                        <td>:</td>
+                        <td>
+                          <%= book.AnoPublicacao %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Preco</td>
+                        <td>:</td>
+                        <td>
+                          <%= book.Preco %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Editora</td>
+                        <td>:</td>
+                        <td>
+                          <%= book.Editora %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Estado</td>
+                        <td>:</td>
+                        <td>
+                          <%= book.Estado %>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Stock</td>
+                        <td>:</td>
+                        <td>
+                          <%= book.Stock %>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+              <div class = "box-footer">
+                <button type="submit" class = "btn btn-primary">Buy</button>
+                <button onclick="location.href='/books/list'" type="button" class = "btn btn-danger">Cancel</button>
+              </div>
+            </form>
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <%- include('../partials/footer.ejs'); %>
+  </footer>
+</body>
+
+</html>

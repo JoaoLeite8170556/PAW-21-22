@@ -1,5 +1,4 @@
 var Utilizador = require("../models/utilizador");
-var Livro = require("../models/book");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("../jwt_secret/config");
@@ -57,13 +56,13 @@ userController.login = async (req, res) => {
 
   ////Utilizador não existe na Base de Dados
   if (!user) {
-    return res.status(400).json({ message: "Este utilizador não existe!" });
+    return res.redirect("/");
   }
   
   var passwordValid = await bcrypt.compare(req.body.Password, user.Password)
 
   if(!passwordValid){
-    return res.json({message:"Esta password não existe!"});
+    return res.redirect("/");
   }
 
   const token = jwt.sign(
@@ -91,7 +90,7 @@ userController.login = async (req, res) => {
   res.cookie("user",utilizador);
   
 
-  return res.redirect('/books/list'), utilizador;
+  return res.redirect('/books/list');
 };
 
 /// Metodo para fazer logout 
@@ -220,6 +219,7 @@ userController.GetUtilizador = function (req, res) {
   });
 };
 
+//Métodon que retorna profile de user
 userController.getLoggedUser = function (req, res) {
   var id = req.cookies["user"]._id;
 
@@ -266,6 +266,7 @@ userController.Update = function (req, res, next) {
   });
 };
 
+//Método para renderizar página de mudar password
 userController.changePassword = (req, res) =>{
   Utilizador.findById(req.params.id, (err, user) => {
     if (err) {
@@ -308,7 +309,6 @@ userController.EditPassword = async function (req, res) {
   );
 };
 
-
 /// Verifica se tem token
 userController.verifyToken = function (req, res, next) {
   var token = req.cookies["token"];
@@ -321,12 +321,12 @@ userController.verifyToken = function (req, res, next) {
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
       console.log("Erro a encontrar a informação");
-      return res.redirect("/");
+      return res.redirect('back');
     }else if(user.Role == "Cliente" || user.Role == "Funcionario" || user.Role =="Administrador"){
       return next();
     }else{
       console.log("Não tem permissões para aceder aqui!");
-      return res.redirect("/");
+      return res.redirect('back');
     }
   })
 
@@ -338,9 +338,6 @@ userController.verifyFuncionario = function (req, res, next) {
   var token = req.cookies["token"];
   var id = req.cookies["user"]._id;
 
-  console.log(token);
-
-
   if(!token){
     return res.redirect("/");
   }
@@ -348,12 +345,12 @@ userController.verifyFuncionario = function (req, res, next) {
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
       console.log("Erro a encontrar a informação");
-      return res.redirect("/");
+      return res.redirect('back');
     }else if(user.Role == "Funcionario"){
       return next();
     }else{
       console.log("Não tem permissões para aceder aqui!");
-      return res.redirect("/");
+      return res.redirect('back');
     }
   })
 
@@ -364,9 +361,6 @@ userController.verifyAdmin = function (req, res, next) {
   var token = req.cookies["token"];
   var id = req.cookies["user"]._id;
 
-  console.log(token);
-
-
   if(!token){
     return res.redirect("/");
   }
@@ -374,17 +368,16 @@ userController.verifyAdmin = function (req, res, next) {
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
       console.log("Erro a encontrar a informação");
-      return res.redirect("/");
+      return res.redirect('back');
     }else if(user.Role =="Administrador"){
       return next();
     }else{
       console.log("Não tem permissões para aceder aqui!");
-      return res.redirect("/");
+      return res.redirect('back');
     }
   })
 
 };
-
 
 // Verifica se é Cliente
 userController.verifyCliente = function (req, res, next) {
@@ -396,19 +389,19 @@ userController.verifyCliente = function (req, res, next) {
 
 
   if(!token){
-    return res.redirect("/");
+    return res.redirect('/');
   }
 
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
       console.log("Erro a encontrar a informação");
-      return res.redirect("/");
+      return res.redirect('back');
     }else if(user.Role == "Cliente"){
       return next();
     }else{
       console.log("Não tem permissões para aceder aqui!");
-      return res.redirect("/");
+      res.redirect('back');
     }
   })
 

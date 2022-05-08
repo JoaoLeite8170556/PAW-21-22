@@ -25,6 +25,7 @@ var utilizadorSchema = new Schema({
     type: String,
     enum: ["Infantil", "Adolescente", "Adulto", "Senior"],
   },
+  Pontos: { type: Number, default:0 },
   LivrosComprados: [],
   LivrosVendidos: [],
 });

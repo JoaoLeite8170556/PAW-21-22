@@ -80,10 +80,18 @@
                     <%= user.CategoriaIdade %>
                   </td>
                 </tr>
+                <tr>
+                  <td>Pontos</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.Pontos %>
+                  </td>
+                </tr>
               </tbody>
             </table>
+            <button onclick="location.href='/users/editUser/<%=user._id%>'" type="button" class = "btn btn-primary">EDIT USER</button>
             <button onclick="location.href='/users/changePassword/<%=user._id%>'" type="button" class = "btn btn-primary">EDIT PASSWORD</button>
-            <button onclick="location.href='/users/list'" type="button" class = "btn btn-danger">VOLTAR</button>
+            <button onclick="location.href='/books/list'" type="button" class = "btn btn-danger">VOLTAR</button>
           </div>
         </div>
       </div>

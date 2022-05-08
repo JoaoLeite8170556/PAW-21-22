@@ -1,0 +1,50 @@
+#### Pontos realizados neste Milestone:
+
+1- Login;
+2- Logout;
+3 - Registar Cliente e Funcionário;
+4 - Ver todos os Utilizadores criados;
+5 - Eliminar utilizador;
+6 - Editar dados Pessoais do Utilizador;
+7 - Verificar se tem token e verificar o Role do utilizador logado;
+8 - Adicionar livro;
+9 - Editar dados do livro;
+10 - Consultar dados do livro;
+11 - Atualizar stock;
+12 - Simular compra de livro;
+13 - Remover Livro;
+14 - Obter listagem de todos os livros;
+15 - Obter listagem de livros novos;
+16 - Obter listagem de livros usados;
+17 - Alterar Password;
+
+
+
+####Especificações Das Páginas
+
+Funcionários: 
+1 - Só os funcionários podem inserir e remover livros;
+2 - Unico que pode atualizar o stock dos livros;
+3 - Não se podem registar sozinhos so o Admin o pode fazer;
+4 - Pode atualizar dados do livro;
+
+
+Cliente: 
+1 - Pode comprar livros;
+2 - Pode consultar os livros;
+3 - Pode atualizar os seus dados;
+4 - Pode consultar dados dos livros;
+
+Administrador:
+1 - Pode eliminar utilizador;
+2 - Unico a registar Funcionários;
+
+
+Falhas nas nossas páginas:
+
+Por dificuldades a verificar nas views o Role do utilizador loggado a nav-menu vai conter todas as opções, mas só os utilizadores com permissões para
+lhe aceder vão entrar nas páginas, se não tiver permissão volta para a página de login. Eu sei que não é a melhor forma fazer mas foi a forma que nos vimos
+para ultrapassar o problema;
+
+Para testar com um único utilizador todas as funcionálidades das nossas páginas, basta retirar todos os verifys das rotas;
+
