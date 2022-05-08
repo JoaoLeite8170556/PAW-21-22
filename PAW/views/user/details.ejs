@@ -10,76 +10,86 @@
     <%- include('../partials/header.ejs'); %>
   </header>
   <main>
-    <div>
-      <h4>
-        <%= user.Nome%>
-      </h4>
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              <td>Nome</td>
-              <td>:</td>
-              <td>
-                <%= user.Nome %>
-              </td>
-            </tr>
-            <tr>
-              <td>Email</td>
-              <td>:</td>
-              <td>
-                <%= user.Email %>
-              </td>
-            </tr>
 
-            <tr>
-              <td>Role</td>
-              <td>:</td>
-              <td>
-                <%= user.Role %>
-              </td>
-            </tr>
-            <tr>
-              <td>Morada</td>
-              <td>:</td>
-              <td>
-                <%= user.Morada %>
-              </td>
-            </tr>
-            <tr>
-              <td>Genero</td>
-              <td>:</td>
-              <td>
-                <%= user.Genero %>
-              </td>
-            </tr>
-            <tr>
-              <td>DataNascimento</td>
-              <td>:</td>
-              <td>
-                <%= user.DataNascimento %>
-              </td>
-            </tr>
-            <tr>
-              <td>Idade</td>
-              <td>:</td>
-              <td>
-                <%= user.Idade %>
-              </td>
-            </tr>
-            <tr>
-              <td>CategoriaIdade</td>
-              <td>:</td>
-              <td>
-                <%= user.CategoriaIdade %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <button onclick="location.href='/users/list'" type="button">VOLTAR</button>
-        <button onclick="location.href='/users/changePassword/<%=user._id%>'" type="button">EDIT PASSWORD</button>
+
+
+
+    <div class = "container">
+      <div class = "row">
+        <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+          <h4 class = "text-center"> <%= user.Nome%> </h4>
+          <div class = "card-body">
+           
+
+            <table>
+              <tbody>
+                <tr>
+                  <td>Nome</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.Nome %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.Email %>
+                  </td>
+                </tr>
+    
+                <tr>
+                  <td>Role</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.Role %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Morada</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.Morada %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Genero</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.Genero %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>DataNascimento</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.DataNascimento %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Idade</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.Idade %>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CategoriaIdade</td>
+                  <td>:</td>
+                  <td>
+                    <%= user.CategoriaIdade %>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button onclick="location.href='/users/changePassword/<%=user._id%>'" type="button" class = "btn btn-primary">EDIT PASSWORD</button>
+            <button onclick="location.href='/users/list'" type="button" class = "btn btn-danger">VOLTAR</button>
+          </div>
+        </div>
       </div>
     </div>
+
+
   </main>
   <footer>
     <%- include('../partials/footer.ejs'); %>
