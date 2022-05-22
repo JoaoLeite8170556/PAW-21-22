@@ -27,10 +27,13 @@ router.post('/register', userController.verifyToken, userController.verifyFuncio
 router.post('/updateStock/:id',userController.verifyToken, userController.verifyFuncionario, bookController.UpdateStock);
 router.get('/delete/:id',userController.verifyFuncionario,bookController.DeleteBook);
 router.post('/buyBook/:id',userController.verifyToken,bookController.buyBook);
+router.post('/sellBook/:id',bookController.sellBook);
+router.put("/acceptedBookToSell/:id",bookController.ApprovedBook);
 router.post('/list',userController.verifyToken, bookController.allBooks);
-router.get('/list',userController.verifyToken, bookController.allBooks);
-router.get('/show/:id',userController.verifyToken, bookController.getBook);
+router.get('/list',bookController.allBooks);
+router.get('/show/:id', bookController.getBook);
 router.get('/getBooksWtihoutStock',userController.verifyToken,bookController.getBooksWithoutStock);
+router.get('/getBooksWtihoutAccept',bookController.GetAllBooksForAccept);
 router.get('/new',userController.verifyToken, bookController.getBooksNovos);
 router.get('/used',userController.verifyToken, bookController.getBooksUsados);
 router.post('/update/:id',userController.verifyToken,bookController.Update);

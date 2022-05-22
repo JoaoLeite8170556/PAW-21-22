@@ -19,6 +19,14 @@ var LivroSchema = new Schema({
     Stock : {
         type : Number,
         default : 1
+    },
+    LivroAprovado :{
+        type: Boolean,
+        default : false
+    },
+    IDVendedor : {
+        type: String,
+        default : ""
     }
 });
 
