@@ -1,9 +1,9 @@
 var Utilizador = require("../models/utilizador");
 var Livro = require("../models/book");
 var Livraria = require("../models/livraria");
-const book = require("../models/book");
-const { render } = require("ejs");
-const { EditPassword } = require("./userController");
+const Stripe = require('stripe');
+const stripe = Stripe('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+
 
 var bookController = {};
 
@@ -130,9 +130,9 @@ bookController.buy = (req, res) => {
 
 /// Método para comprar um livro
 bookController.buyBook = async function (req, res) {
-  var id = req.cookies["user"]._id;
+  ///var id = req.cookies["user"]._id;
 
-  const utilizador = await Utilizador.findOne({ _id: id}).exec();
+  const utilizador = await Utilizador.findOne({ _id: req.params.idUtilizador}).exec();
   const livraria = await Livraria.findOne({_id: "628a7d88e4ec03e5112f617b"}).exec();
 
   if (!utilizador) {
@@ -171,7 +171,7 @@ bookController.buyBook = async function (req, res) {
 
   ////Metodo para adicionar o livro ao utilizador
   Utilizador.findOneAndUpdate(
-    { _id: id },
+    { _id: req.params.idUtilizador },
     { $push: { LivrosComprados: book } },
     { new: true, upsert: true },
     function (error, success) {
@@ -199,7 +199,7 @@ bookController.buyBook = async function (req, res) {
 
   /// Método para atualizar o num aquisições
   Utilizador.findOneAndUpdate(
-    { _id: id },
+    { _id: req.params.idUtilizador },
     { $set: { NumAquisicoes : newAquisicoes, Pontos : newPontos } },
     { new: true, upsert: true },
     function (error, success) {
@@ -211,7 +211,18 @@ bookController.buyBook = async function (req, res) {
     }
   ).exec();
 
-  return res.json({message:"Livro adquirido com sucesso"});
+
+  
+  var totalApagar = 0;
+
+  const charge = await stripe.charges.create({
+    amount: book.Preco,
+    currency: 'eur',
+    source: 'tok_mastercard',
+    description: 'Pagamento realizado com sucesso!!! Livro adquirido com sucesso'
+  });
+
+  return res.json({message:charge.description + "    "+ charge.amount});
 };
 
 ///metodo que vai possibilitar colocar livros a venda pelo utilizador
@@ -456,5 +467,8 @@ bookController.getBooksUsados = function (req, res, next) {
     }
   });
 };
+
+
+
 
 module.exports = bookController;

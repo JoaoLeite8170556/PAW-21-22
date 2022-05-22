@@ -26,7 +26,7 @@ router.get('/editStock/:id', userController.verifyToken, userController.verifyFu
 router.post('/register', userController.verifyToken, userController.verifyFuncionario, bookController.RegisterBook);
 router.post('/updateStock/:id',userController.verifyToken, userController.verifyFuncionario, bookController.UpdateStock);
 router.get('/delete/:id',userController.verifyFuncionario,bookController.DeleteBook);
-router.post('/buyBook/:id',userController.verifyToken,bookController.buyBook);
+router.post('/buyBook/:id/:idUtilizador',bookController.buyBook);
 router.post('/sellBook/:id',bookController.sellBook);
 router.put("/acceptedBookToSell/:id",bookController.ApprovedBook);
 router.post('/list',userController.verifyToken, bookController.allBooks);
