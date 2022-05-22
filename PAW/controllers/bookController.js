@@ -153,6 +153,9 @@ bookController.buyBook = async function (req, res) {
   let newStock = book.Stock - 1;
   let newAquisicoes = utilizador.NumAquisicoes + 1;
   var newPontos = utilizador.Pontos;
+
+
+
   if (utilizador.CategoriaIdade == "Infantil") {
     newPontos += 10 + book.Preco;
   } else if (utilizador.CategoriaIdade == "Adolescente") {
@@ -228,7 +231,6 @@ bookController.sellBook = async function(req,res){
       message: "Este livro já exsite, não pode voltar a adicionar!!!",
     });
   }
-
   const livro = new Livro({
     /* Imagem : req.body.Imagem, */
     ISBN: req.body.ISBN,
@@ -265,41 +267,67 @@ bookController.GetAllBooksForAccept = async function(req,res){
   });
 };
 
+
+///Método que vai colocar o livro disponivel para ser comprado
 bookController.ApprovedBook = async function(req,res){
-  const livro = await Livro.findOne({ _id: req.params.id }).exec();
+    const livro = await Livro.findOne({ _id: req.params.id }).exec();
 
-  if(!livro){
-    return res.json({message:"Este livro não existe"});
-  }
-
-  if(livro.LivroAprovado == true){
-    return res.json({message:"Este livro já foi aprovado para ser vendido!!!"});
-  }
-
-  Livro.findOneAndUpdate(
-    { _id: req.params.id },
-    { $set: { LivroAprovado: true } },
-    { new: true, upsert: true },
-    function (error, success) {
-      if (error) {
-        console.log(error);
-      } else {
-        return res.json({message:"Livro já pode ser apresentado para ser vendido"});
-      }
+    if(!livro){
+      return res.json({message:"Este livro não existe"});
     }
-  ).exec();
-  
 
+    if(livro.LivroAprovado == true){
+      return res.json({message:"Este livro já foi aprovado para ser vendido!!!"});
+    }
+
+    const utilizador = await Utilizador.findOne({_id: livro.IDVendedor});
+
+    if(!utilizador){
+      return res.json({message: "Este utilizador não existe"});
+    }
+
+    let numVendas = utilizador.QuantidadeVendas + 1 + livro.Stock;
+    let valorTotalVendas = utilizador.ValorTotalVendas + livro.Preco;
+    
+
+    Utilizador.findOneAndUpdate(
+      { _id: utilizador._id },
+      { $set: { QuantidadeVendas : numVendas, ValorTotalVendas : valorTotalVendas } },
+      { new: true, upsert: true},
+      function (error, success) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(success);
+        }
+      }
+    ).exec();
+
+    Livro.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { LivroAprovado: true } },
+      { new: true, upsert: true},
+      function (error, success) {
+        if (error) {
+         console.log(error);
+        } else {
+          console.log(success);
+        }
+      }
+      ).exec();
+
+      return res.json({message:"Livro aprovado com sucesso;"});
+  
 };
 
-///Método que retorna uma lista de livros
+///Método que retorna uma lista de livros (Aprovados para venda)
 bookController.allBooks = function (req, res, next) {
   Livro.find({LivroAprovado : true}).exec((err, books) => {
     if (err) {
       console.log("Erro a obter os dados da BD");
       next(err);
     } else {
-      res.json({books});
+      return res.json({books});
     }
   });
 };
@@ -313,6 +341,45 @@ bookController.getBook = function (req, res) {
       res.json({book});
     }
   });
+};
+
+
+///Metódo para retorna livros vendidos por um respetivo cliente
+bookController.getBookVendidosPorCliente = async function(req,res){
+  var utilizador = await Utilizador.findOne({ _id : req.params.id }).exec();
+
+  if(!utilizador){
+    return res.json({message:"Este utilizador não existe"});
+  }
+
+  Livro.find({LivroAprovado : true, IDVendedor : req.params.id}).exec((err, books) => {
+    if (err) {
+      console.log("Erro a obter os dados da BD");
+      next(err);
+    } else {
+      return res.json({books});
+    }
+  });
+
+};
+
+
+bookController.getBookAindaNaoVendidosPorCliente = async function(req,res){
+  var utilizador = await Utilizador.findOne({ _id : req.params.id }).exec();
+
+  if(!utilizador){
+    return res.json({message:"Este utilizador não existe"});
+  }
+
+  Livro.find({LivroAprovado : false, IDVendedor : req.params.id}).exec((err, books) => {
+    if (err) {
+      console.log("Erro a obter os dados da BD");
+      next(err);
+    } else {
+      return res.json({books});
+    }
+  });
+
 };
 
 ///Método que retorna livros onde não tem stock

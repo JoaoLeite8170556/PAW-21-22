@@ -212,9 +212,9 @@ userController.RegisterFuncionario = async function (req, res, next) {
 userController.GetUtilizador = function (req, res) {
   Utilizador.findById(req.params.id, (err, user) => {
     if (err) {
-      res.status(400).json({ message: "Utilizador não encontrado!!!" });
+      return res.status(400).json({ message: "Utilizador não encontrado!!!" });
     } else {
-      res.render("user/details", { user: user });
+      return res.json({user});
     }
   });
 };
