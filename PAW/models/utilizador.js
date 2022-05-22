@@ -27,7 +27,11 @@ var utilizadorSchema = new Schema({
   },
   Pontos: { type: Number, default:0 },
   LivrosComprados: [],
-  LivrosVendidos: [],
+  LivrosAvaliados: [{
+    IdBook : String,
+    NomeLivro: String,
+    Avaliacao: Number
+  }],
 });
 
 module.exports = mongoose.model("Utilizador", utilizadorSchema);

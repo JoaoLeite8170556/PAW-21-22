@@ -219,6 +219,21 @@ userController.GetUtilizador = function (req, res) {
   });
 };
 
+
+///Metodo para ver as avaliações a livros por parte de um cliente
+userController.GetAvaliacoesUtilizadorALivros = async function(req,res){
+  let utilizador = await Utilizador.findOne({_id: req.params.id});
+
+ if(!utilizador){
+   return res.json({message:"Este utilizador não existe!!"});
+ } 
+
+ let array = utilizador.LivrosAvaliados;
+
+ return res.json({array});
+
+};
+
 //Métodon que retorna profile de user
 userController.getLoggedUser = function (req, res) {
   var id = req.cookies["user"]._id;

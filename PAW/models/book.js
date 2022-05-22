@@ -27,6 +27,11 @@ var LivroSchema = new Schema({
     IDVendedor : {
         type: String,
         default : ""
+    },
+    Avaliacao :{
+        type: Number,
+        default:0,
+        max:5
     }
 });
 

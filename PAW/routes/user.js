@@ -16,6 +16,7 @@ router.get('/show/:id', userController.GetUtilizador);
 router.get('/list',userController.verifyToken, userController.verifyAdmin, userController.list);
 router.post('/update/:id',userController.verifyToken, userController.Update);
 router.post('/editPassword/:id',userController.verifyToken, userController.EditPassword);
+router.get('/getAvaliacoesLivros/:id',userController.GetAvaliacoesUtilizadorALivros);
 router.post('/login', userController.login);
 router.get('/logout', userController.verifyToken, userController.logOut);
 router.get('/delete/:id',userController.verifyToken, userController.verifyAdmin, userController.DeleteUser);

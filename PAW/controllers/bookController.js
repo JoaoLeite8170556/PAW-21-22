@@ -1,7 +1,9 @@
 var Utilizador = require("../models/utilizador");
 var Livro = require("../models/book");
+var Livraria = require("../models/livraria");
 const book = require("../models/book");
 const { render } = require("ejs");
+const { EditPassword } = require("./userController");
 
 var bookController = {};
 
@@ -130,7 +132,8 @@ bookController.buy = (req, res) => {
 bookController.buyBook = async function (req, res) {
   var id = req.cookies["user"]._id;
 
-  const utilizador = await Utilizador.findOne({ _id: id }).exec();
+  const utilizador = await Utilizador.findOne({ _id: id}).exec();
+  const livraria = await Livraria.findOne({_id: "628a7d88e4ec03e5112f617b"}).exec();
 
   if (!utilizador) {
     return res.status(404).json({ message: "Este utilizador não existe!!" });
@@ -147,7 +150,7 @@ bookController.buyBook = async function (req, res) {
   }
 
   if (book.Stock == 0) {
-    return res.redirect("/books/show/" + book._id);
+    return res.json({message:"Não existe mais stock para este livro."});
   }
 
   let newStock = book.Stock - 1;
@@ -157,13 +160,13 @@ bookController.buyBook = async function (req, res) {
 
 
   if (utilizador.CategoriaIdade == "Infantil") {
-    newPontos += 10 + book.Preco;
+    newPontos += livraria.Infantil;
   } else if (utilizador.CategoriaIdade == "Adolescente") {
-    newPontos += 15 + book.Preco;
+    newPontos += livraria.Adolescente;
   } else if (utilizador.CategoriaIdade == "Adulto") {
-    newPontos += 20 + book.Preco;
+    newPontos += livraria.Adulto;
   } else if (utilizador.CategoriaIdade == "Senior") {
-    newPontos += 25 + book.Preco;
+    newPontos += livraria.Senior;
   }
 
   ////Metodo para adicionar o livro ao utilizador
@@ -208,7 +211,7 @@ bookController.buyBook = async function (req, res) {
     }
   ).exec();
 
-  return res.redirect("/books/list");
+  return res.json({message:"Livro adquirido com sucesso"});
 };
 
 ///metodo que vai possibilitar colocar livros a venda pelo utilizador
@@ -343,6 +346,40 @@ bookController.getBook = function (req, res) {
   });
 };
 
+///Método para avaliar um livro por um cliente
+bookController.AvaliarBook = async function(req,res){
+  const book = await Livro.findOne({ _id: req.params.id }).exec();
+  const utilizador = await Utilizador.findOne({ _id: req.params.idUtilizador}).exec();
+
+
+  if(!book){
+    return res.json({message:"Este livro não existe"});
+  }
+
+  if(!utilizador){
+    return res.json({message:"Este utilizador não existe"});
+  }
+
+  
+
+  Utilizador.findOneAndUpdate(
+    { _id: req.params.idUtilizador },
+    { $push: { LivrosAvaliados: {
+      IDBook : book._id,
+      NomeLivro : book.Titulo,
+      Avaliacao : req.body.Avaliacao
+    } } },
+    { new: true, upsert: true },
+    function (error, success) {
+      if (error) {
+        console.log(error);
+      } else {       
+        return res.json({message:"Livro avaliado com sucesso!!"});
+      }
+    }
+  ).exec();
+};
+
 
 ///Metódo para retorna livros vendidos por um respetivo cliente
 bookController.getBookVendidosPorCliente = async function(req,res){
@@ -363,7 +400,7 @@ bookController.getBookVendidosPorCliente = async function(req,res){
 
 };
 
-
+///Metodo que retorna metodo livros ainda não aprovados para ser vendidos
 bookController.getBookAindaNaoVendidosPorCliente = async function(req,res){
   var utilizador = await Utilizador.findOne({ _id : req.params.id }).exec();
 

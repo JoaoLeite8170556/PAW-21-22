@@ -39,6 +39,7 @@ router.get('/getBooksAindaNaoVendidosPorCliente/:id',bookController.getBookAinda
 router.get('/new',userController.verifyToken, bookController.getBooksNovos);
 router.get('/used',userController.verifyToken, bookController.getBooksUsados);
 router.post('/update/:id',userController.verifyToken,bookController.Update);
+router.put('/avaliarBook/:id/:idUtilizador',bookController.AvaliarBook);
 
 
 module.exports = router;
