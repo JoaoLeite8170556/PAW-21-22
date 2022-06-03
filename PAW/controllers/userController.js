@@ -26,20 +26,14 @@ function covertStringToDate(dateString) {
   }
 }
 
-userController.addClient = (req, res) =>{
-  res.render('user/createClient');
-}
-
-userController.addEmployee = (req, res) =>{
-  res.render('user/createEmployee');
-}
-
 userController.editUser = (req, res) =>{
   Utilizador.findById(req.params.id, (err, user) => {
     if (err) {
       res.status(400).json({ message: "Utilizador não encontrado!!!" });
     } else {
-      res.render("user/update", { user: user });
+      return res.status(200).json({
+        user
+      })
     }
   })
 }
@@ -50,19 +44,22 @@ function getAge(dateString) {
   return Math.floor(ageInMilliseconds / 1000 / 60 / 60 / 24 / 365); // convert to years
 }
 
+
+
+///Metodo que permite realizar o login;
 userController.login = async (req, res) => {
 
   let user = await Utilizador.findOne({Email: req.body.Email});
 
   ////Utilizador não existe na Base de Dados
   if (!user) {
-    return res.redirect("/");
+    return res.json({message:"Este utilizador na existe"})
   }
   
   var passwordValid = await bcrypt.compare(req.body.Password, user.Password)
 
   if(!passwordValid){
-    return res.redirect("/");
+    return res.json({message:"Esta password não corresponde a sua password;"});
   }
 
   const token = jwt.sign(
@@ -78,28 +75,9 @@ userController.login = async (req, res) => {
     }
   );
 
-  var utilizador = {
-    _id : user._id,
-    Nome : user.Nome,
-    Email : user.Email,
-    Role : user.Role,
-    CategoriaIdade: user.CategoriaIdade
-  };
-
-  res.cookie("token",token);
-  res.cookie("user",utilizador);
-  
-
-  return res.redirect('/books/list');
+ return res.status(200).json({auth:true,token:token,role:user.Role,_id:user._id,Email:user.Email});
 };
 
-/// Metodo para fazer logout 
-userController.logOut = function(req,res){
-  res.clearCookie("user");
-  res.clearCookie("token");
-
-  return res.redirect("/");
-}
 
 ///Método que vai servir para guardar um Cliente
 userController.RegisterCliente = async function (req, res, next) {
@@ -151,7 +129,7 @@ userController.RegisterCliente = async function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect('/users/list');
+    return res.status(200).json({cliente});
   });
 };
 
@@ -204,7 +182,7 @@ userController.RegisterFuncionario = async function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect('/users/list');
+    return res.status(200).json({Funcionario});
   });
 };
 
@@ -214,7 +192,7 @@ userController.GetUtilizador = function (req, res) {
     if (err) {
       return res.status(400).json({ message: "Utilizador não encontrado!!!" });
     } else {
-      return res.json({user});
+      return res.status(200).json({user});
     }
   });
 };
@@ -234,26 +212,14 @@ userController.GetAvaliacoesUtilizadorALivros = async function(req,res){
 
 };
 
-//Métodon que retorna profile de user
-userController.getLoggedUser = function (req, res) {
-  var id = req.cookies["user"]._id;
-
-  Utilizador.findById(id, (err, user) => {
-    if (err) {
-      res.status(400).json({ message: "Utilizador não encontrado!!!" });
-    } else {
-      res.render("user/details", { user: user });
-    }
-  });
-};
 
 ///Método que elimina o Utilizador
 userController.DeleteUser = function (req, res) {
   Utilizador.findByIdAndRemove(req.params.id, (err) => {
     if (err) {
-      res.status(400).json({ message: "Utilizador não encontrado!!!" });
+      return res.status(400).json({ message: "Utilizador não encontrado!!!" });
     } else {
-      res.redirect('/users/list');
+      return res.json({message:"Utilizador eliminado com sucesso!!"});
     }
   });
 };
@@ -262,41 +228,19 @@ userController.DeleteUser = function (req, res) {
 userController.list = function (req, res, next) {
   Utilizador.find({}).exec((err, users) => {
     if (err) {
-      console.log("Erro a obter os dados da BD");
       next(err);
     } else {
-      //res.status(201).json(utilizadores);
-      res.render("user/list", { users: users });
+      return res.status(200).json({users});
     }
   });
 };
 
-///Método para editar
-userController.Update = function (req, res, next) {
-  Utilizador.findByIdAndUpdate(req.params.id, req.body, { useFindAndModify: false}, (err) => {
-    if (err) {
-      return next(err);
-    }
-    res.redirect('/users/list');
-  });
-};
-
-//Método para renderizar página de mudar password
-userController.changePassword = (req, res) =>{
-  Utilizador.findById(req.params.id, (err, user) => {
-    if (err) {
-      res.status(400).json({ message: "Utilizador não encontrado!!!" });
-    } else {
-      res.render("user/changePassword", { user: user });
-    }
-  })
-}
 
 ////Método para atualizar a password
 userController.EditPassword = async function (req, res) {
   ///Verificamos se a password não coencidem
   if (req.body.Password != req.body.Password2) {
-    res.status(404).json({ message: "As passwords não coêncidem!!!" });
+    return res.status(404).json({ message: "As passwords não coêncidem!!!" });
   }
 
   ///Verifica se o Email não existe!!
@@ -317,31 +261,27 @@ userController.EditPassword = async function (req, res) {
     { Password: hashedPassword },
     function (err) {
       if (err) {
-        res.status(404).json({ message: "Utilizador não encontrado!!!!" });
+        return res.status(404).json({ message: "Utilizador não encontrado!!!!" });
       }
-      res.redirect("/users/show/"+ user._id);
+      return res.status(200);
     }
   );
 };
 
 /// Verifica se tem token
 userController.verifyToken = function (req, res, next) {
-  var token = req.cookies["token"];
-  var id = req.cookies["user"]._id;
 
   if(!token){
-    return res.redirect("/");
+    return res.json({message:"Este utilizador não tem token"});
   }
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      console.log("Erro a encontrar a informação");
-      return res.redirect('back');
+      return res.json({err});
     }else if(user.Role == "Cliente" || user.Role == "Funcionario" || user.Role =="Administrador"){
       return next();
     }else{
-      console.log("Não tem permissões para aceder aqui!");
-      return res.redirect('back');
+      return res.status(200);
     }
   })
 
@@ -350,22 +290,17 @@ userController.verifyToken = function (req, res, next) {
 
 /// Verifica se ele funcionario
 userController.verifyFuncionario = function (req, res, next) {
-  var token = req.cookies["token"];
-  var id = req.cookies["user"]._id;
+  var token = req.headers["x-access-token"];
 
   if(!token){
-    return res.redirect("/");
+    return res.json({message:"O utilizador não possui token"});
   }
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      console.log("Erro a encontrar a informação");
-      return res.redirect('back');
+      return res.json({message:"Este utilizador não existe!!"});
     }else if(user.Role == "Funcionario"){
       return next();
-    }else{
-      console.log("Não tem permissões para aceder aqui!");
-      return res.redirect('back');
     }
   })
 
@@ -373,55 +308,35 @@ userController.verifyFuncionario = function (req, res, next) {
 
 /// Verificar se é administrador
 userController.verifyAdmin = function (req, res, next) {
-  var token = req.cookies["token"];
-  var id = req.cookies["user"]._id;
+  var token = req.headers["x-access-token"];
 
   if(!token){
-    return res.redirect("/");
+    return res.json({message:"Este utilizador não possui token"});
   }
 
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      console.log("Erro a encontrar a informação");
-      return res.redirect('back');
+      return res.json({err});
     }else if(user.Role =="Administrador"){
       return next();
-    }else{
-      console.log("Não tem permissões para aceder aqui!");
-      return res.redirect('back');
     }
   })
-
 };
 
 // Verifica se é Cliente
 userController.verifyCliente = function (req, res, next) {
 
-  var token = req.cookies["token"];
-  var id = req.cookies["user"]._id;
-
-  console.log(token);
-
+  var token = req.headers["x-access-token"];
 
   if(!token){
-    return res.redirect('/');
+    return res.json({message:"Este utilizador não existe!!"});
   }
-
-
   Utilizador.findOne({_id:id},function(err,user){
     if(err){
-      console.log("Erro a encontrar a informação");
-      return res.redirect('back');
+      return res.json({err});
     }else if(user.Role == "Cliente"){
       return next();
-    }else{
-      console.log("Não tem permissões para aceder aqui!");
-      res.redirect('back');
     }
   })
-
-    
 };
-
-
 module.exports = userController;

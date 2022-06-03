@@ -7,19 +7,6 @@ const stripe = Stripe('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 var bookController = {};
 
-bookController.addBook = (req, res) => {
-  res.render("book/create");
-};
-
-bookController.editBook = (req, res) => {
-  Livro.findById(req.params.id, (err, book) => {
-    if (err) {
-      res.status(400).json({ message: "Livro não encontrado!!!" });
-    } else {
-      res.render("book/update", { book: book });
-    }
-  });
-};
 
 ////Método que vai adicionar um livro na BD
 bookController.RegisterBook = async function (req, res, next) {
@@ -48,7 +35,7 @@ bookController.RegisterBook = async function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.redirect("/books/list");
+    return res.json({livro});
   });
 };
 
@@ -62,7 +49,7 @@ bookController.Update = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      res.redirect("/books/list");
+      return res.json({message:"Utilizador atualizado com sucesso"});
     }
   );
 };
@@ -73,7 +60,7 @@ bookController.editStock = (req, res) =>{
         if (err) {
           res.status(400).json({ message: "Utilizador não encontrado!!!" });
         } else {
-          res.render("book/editStock", { book: book });
+          return res.json({message:"Stock atualizado com sucesso!!"});
         }
       })
 }
@@ -87,11 +74,11 @@ bookController.UpdateStock = async function (req, res, next) {
   const livroTemp = await Livro.findOne({ _id: req.params.id }).exec();
 
   if (!livroTemp) {
-    return res.redirect('back');
+    return res.json({message:"Este livro não existe!!"});
   }
 
   if (livroTemp.Stock == stock.Stock) {
-    return res.redirect('back');
+    return res.json({message:"O stock a introduzir é igual ao atual!!"});
   }
 
   Livro.findByIdAndUpdate(
@@ -102,7 +89,7 @@ bookController.UpdateStock = async function (req, res, next) {
       if (err) {
         return next(err);
       }
-      return res.redirect("/books/list")
+      return res.json({message:"Stock atualizado com sucesso!!"});
     }
   );
 };
@@ -113,20 +100,12 @@ bookController.DeleteBook = function (req, res) {
     if (err) {
       res.status(400).json({ message: "Livro não encontrado!!!" });
     } else {
-      res.redirect("/books/list");
+      return res.json({message:"Livro apagado com sucesso!!"});
     }
   });
 };
 
-bookController.buy = (req, res) => {
-  Livro.findById(req.params.id, (err, book) => {
-    if (err) {
-      res.status(400).json({ message: "Livro não encontrado!!!" });
-    } else {
-      res.render("book/buy", { book: book });
-    }
-  });
-};
+
 
 /// Método para comprar um livro
 bookController.buyBook = async function (req, res) {
@@ -212,7 +191,7 @@ bookController.buyBook = async function (req, res) {
   ).exec();
 
 
-  
+  //// Temos que mudar isto
   var totalApagar = 0;
 
   const charge = await stripe.charges.create({
@@ -227,8 +206,6 @@ bookController.buyBook = async function (req, res) {
 
 ///metodo que vai possibilitar colocar livros a venda pelo utilizador
 bookController.sellBook = async function(req,res){
-  ///Depois temos que descomentar
-  //var id = req.cookies["user"]._id;
 
   const utilizador = await Utilizador.findOne({ _id: req.params.id }).exec();
 
@@ -272,11 +249,10 @@ bookController.sellBook = async function(req,res){
 bookController.GetAllBooksForAccept = async function(req,res){
   Livro.find({ LivroAprovado: false }).exec((err, livros) => {
     if (err) {
-      console.log("Erro a obter os dados da BD");
       next(err);
     } else {
       console.log(livros);
-      res.status(201).json(livros);
+      return res.status(201).json(livros);
     }
   });
 };
@@ -338,7 +314,6 @@ bookController.ApprovedBook = async function(req,res){
 bookController.allBooks = function (req, res, next) {
   Livro.find({LivroAprovado : true}).exec((err, books) => {
     if (err) {
-      console.log("Erro a obter os dados da BD");
       next(err);
     } else {
       return res.json({books});
@@ -371,7 +346,6 @@ bookController.AvaliarBook = async function(req,res){
     return res.json({message:"Este utilizador não existe"});
   }
 
-  
 
   Utilizador.findOneAndUpdate(
     { _id: req.params.idUtilizador },
@@ -381,7 +355,7 @@ bookController.AvaliarBook = async function(req,res){
       Avaliacao : req.body.Avaliacao
     } } },
     { new: true, upsert: true },
-    function (error, success) {
+    function (error, success){
       if (error) {
         console.log(error);
       } else {       
@@ -438,7 +412,7 @@ bookController.getBooksWithoutStock = function (req, res, next) {
       next(err);
     } else {
       console.log(livros);
-      res.status(201).json(livros);
+      return res.status(201).json(livros);
     }
   });
 };
@@ -450,7 +424,7 @@ bookController.getBooksNovos = function (req, res, next) {
       next(err);
     } else {
       console.log(books);
-      res.render("book/list", { books: books });
+      return res.json({books});
     }
   });
 };
@@ -463,7 +437,7 @@ bookController.getBooksUsados = function (req, res, next) {
       next(err);
     } else {
       console.log(books);
-      res.render("book/list", { books: books });
+      return res.json({books});
     }
   });
 };
