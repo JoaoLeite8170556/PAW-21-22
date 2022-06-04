@@ -1,6 +1,7 @@
 var Utilizador = require("../models/utilizador");
 var Livro = require("../models/book");
 var Livraria = require("../models/livraria");
+var fs = require("fs");
 const Stripe = require('stripe');
 const stripe = Stripe('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
@@ -18,8 +19,9 @@ bookController.RegisterBook = async function (req, res, next) {
     });
   }
 
+
   const livro = new Livro({
-    /* Imagem : req.body.Imagem, */
+    Imagem : 'http://localhost:3000/uploads/'+req.file.filename,
     ISBN: req.body.ISBN,
     Titulo: req.body.Titulo,
     Autores: req.body.Autores,

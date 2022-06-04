@@ -1,13 +1,11 @@
-const { fileLoader } = require('ejs');
+
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var LivroSchema = new Schema({
-    /* Imagem : {type : String}, */
+    Imagem : {type : String},
     ISBN :{type : String,required:true},
     Titulo : {type: String,required:true},
-    Autores : [{
-        type: String
-    }],
+    Autores : {type:String},
     AnoPublicacao : {type: Number,required:true},
     Preco :{type : Number,required:true},
     Editora : {type : String,required:true},
