@@ -1,0 +1,38 @@
+<app-nav-bar></app-nav-bar>
+<div class="container">
+    <br>
+    <h1>Funcionários</h1>
+    <br>
+    <div class="box">
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">ID Funcionário</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Autores</th>
+            <th scope="col">Editora</th>
+            <th scope="col">Preco</th>
+            <th scope="col">Estado</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Ação</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bank of allBooks">
+            <td>{{bank._id}}</td>
+            <td>{{bank.Titulo}}</td>
+            <td>{{bank.Autores}}</td>
+            <td>{{bank.Editora}}</td>
+            <td>{{bank.Preco}}</td>
+            <td>{{bank.Estado}}</td>
+            <td>{{bank.Stock}}</td>
+            <td>
+              <a href="" class="btn btn-secondary">Edit</a>
+              <a href="" class="btn btn-info">Details</a>
+              <a href="" class="btn btn-danger">Delete</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

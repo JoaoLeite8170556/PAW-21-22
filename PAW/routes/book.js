@@ -18,8 +18,8 @@ router.get('/getBooksWtihoutStock',userController.verifyToken,bookController.get
 router.get('/getBooksWtihoutAccept',bookController.GetAllBooksForAccept);
 router.get('/getBooksVendidosPorCliente/:id',bookController.getBookVendidosPorCliente);
 router.get('/getBooksAindaNaoVendidosPorCliente/:id',bookController.getBookAindaNaoVendidosPorCliente);
-router.get('/new',userController.verifyToken, bookController.getBooksNovos);
-router.get('/used',userController.verifyToken, bookController.getBooksUsados);
+router.get('/new', bookController.getBooksNovos);
+router.get('/used',bookController.getBooksUsados);
 router.post('/update/:id',userController.verifyToken,bookController.Update);
 router.put('/avaliarBook/:id/:idUtilizador',bookController.AvaliarBook);
 

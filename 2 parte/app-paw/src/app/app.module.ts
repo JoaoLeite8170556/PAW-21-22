@@ -7,12 +7,16 @@ import { LoginComponent } from './login/login.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import {HttpClientModule} from '@angular/common/http';
+import { BooksComponent } from './books/books.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    FuncionariosComponent
+    FuncionariosComponent,
+    BooksComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
