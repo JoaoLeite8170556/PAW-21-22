@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [FormBuilder,{provide: JWT_OPTIONS, useValue:JWT_OPTIONS},JwtHelperService],
   bootstrap: [AppComponent]
