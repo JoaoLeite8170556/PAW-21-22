@@ -1,0 +1,56 @@
+<h1 style="margin-left: 40%;margin-top: 2%;">Adicionar Livro</h1>
+<div style="margin-left: 40%;">
+    <form [formGroup]="form" (ngSubmit)="addbook()">
+        <div class="form-group">
+            <label for="exampleInputISBN">ISBN</label>
+            <input formControlName="ISBN" type="text"  class="form-control" id="exampleInputISBN" aria-describedby="emailHelp" maxlength="12">
+            <span *ngIf="submitted == true && form.controls['ISBN'].hasError('required')"
+            class="text-danger">ISBN é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputTitulo">Título</label>
+            <input formControlName="Titulo" type="text"  class="form-control" id="exampleInputTitulo" required maxlength="40">
+            <span *ngIf="submitted == true && form.controls['Titulo'].hasError('required')"
+            class="text-danger">Titulo é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputAutor">Autor</label>
+            <input formControlName="Autores"  type="text" class="form-control" id="exampleInputAutor" maxlength="30">
+            <span *ngIf="submitted == true && form.controls['Autores'].hasError('required')"
+            class="text-danger">Autores é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputAutor">Editora</label>
+            <input formControlName="Editora"  type="text" class="form-control" id="exampleInputAutor" maxlength="30">
+            <span *ngIf="submitted == true && form.controls['Editora'].hasError('required')"
+            class="text-danger">Editora é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPublicacao">Ano de Publicação</label>
+            <input formControlName="AnoPublicacao" type="number" class="form-control" id="exampleInputPublicacao" maxlength="4" required="true">
+            <span *ngIf="submitted == true && form.controls['AnoPublicacao'].hasError('required')"
+            class="text-danger">Ano de Publicação é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <p>Estado do livro</p>
+            <input formControlName="Estado" type="radio" id="novo" name="estado" value="Novo">
+            <label for="html"> Novo</label><br>
+            <input formControlName="Estado" type="radio" id="usado" name="estado" value="Usado">
+            <label for="css"> Usado</label><br>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPreco">Preço</label>
+            <input formControlName="Preco" type="number" min="1"  class="form-control" id="exampleInputPreco">
+            <span *ngIf="submitted == true && form.controls['Preco'].hasError('required')"
+            class="text-danger">Preço é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEditora">Stock</label>
+            <input formControlName="Stock" type="number" min="1"  class="form-control" id="exampleInputEditora">
+            <span *ngIf="submitted == true && form.controls['Stock'].hasError('required')"
+            class="text-danger">Stock é obrigatorio introduzir!!</span>
+        </div>
+        <button style="margin-left:10%;width: 20%;font-weight: bolder;" type="submit" class="btn btn-primary">Inserir</button>
+    </form>
+</div>
+

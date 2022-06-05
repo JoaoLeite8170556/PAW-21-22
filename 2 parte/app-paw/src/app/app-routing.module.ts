@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BooksComponent } from './books/books.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
 import { LoginComponent } from './login/login.component';
+import { CreatebookComponent } from './createbook/createbook.component';
 import { AuthserviceService } from './services/AuthServices/authservice.service';
 
 const routes: Routes = [
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'funcionarios', component: FuncionariosComponent },
   { path: 'newbooks', component: BooksComponent },
   { path: 'usedbooks', component: BooksComponent },
+  {path: 'registerBook',component:CreatebookComponent},
   {
     path: 'books',
     children: [

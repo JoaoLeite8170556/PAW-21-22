@@ -2,7 +2,6 @@
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var LivroSchema = new Schema({
-    Imagem : {type : String},
     ISBN :{type : String,required:true},
     Titulo : {type: String,required:true},
     Autores : {type:String},

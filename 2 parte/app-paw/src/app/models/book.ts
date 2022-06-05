@@ -9,9 +9,6 @@ export interface Book {
   Editora: string;
   Estado: Estado;
   Stock: number;
-  LivroAprovado: boolean;
-  IDVendedor: string;
-  Avaliacao: number;
 }
 
 export enum Estado {

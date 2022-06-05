@@ -9,6 +9,7 @@ import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import {HttpClientModule} from '@angular/common/http';
 import { BooksComponent } from './books/books.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { CreatebookComponent } from './createbook/createbook.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     LoginComponent,
     FuncionariosComponent,
     BooksComponent,
-    NavBarComponent
+    NavBarComponent,
+    CreatebookComponent
   ],
   imports: [
     BrowserModule,

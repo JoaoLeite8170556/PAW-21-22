@@ -21,7 +21,6 @@ bookController.RegisterBook = async function (req, res, next) {
 
 
   const livro = new Livro({
-    Imagem : 'http://localhost:3000/uploads/'+req.file.filename,
     ISBN: req.body.ISBN,
     Titulo: req.body.Titulo,
     Autores: req.body.Autores,
