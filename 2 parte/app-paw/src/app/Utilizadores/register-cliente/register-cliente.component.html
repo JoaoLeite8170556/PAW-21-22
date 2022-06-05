@@ -1,0 +1,45 @@
+<h1 style="margin-left: 40%;margin-top: 2%;">Registar Cliente</h1>
+<div style="margin-left: 40%;">
+    <form [formGroup]="form" (ngSubmit)="registClient()">
+        <div class="form-group">
+            <label for="exampleInputNome">Nome</label>
+            <input formControlName="Nome" type="text"  class="form-control" id="exampleInputISBN">
+            <span *ngIf="submitted == true && form.controls['Nome'].hasError('required')"
+            class="text-danger">Nome é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail">Email</label>
+            <input formControlName="Email" type="email"  class="form-control" id="exampleInputEmail" required>
+            <span *ngIf="submitted == true && form.controls['Email'].hasError('required')"
+            class="text-danger">Email é obrigatorio introduzir!!</span>
+            <span *ngIf="submitted == true && form.controls['Email'].hasError('email')"
+            class="text-danger">Email invalido</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputAutor">Password</label>
+            <input formControlName="Password"  type="password" class="form-control" id="exampleInputPassword">
+            <span *ngIf="submitted == true && form.controls['Password'].hasError('required')"
+            class="text-danger">Password é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputAutor">Morada</label>
+            <input formControlName="Morada"  type="text" class="form-control" id="exampleInputMorada" maxlength="30">
+            <span *ngIf="submitted == true && form.controls['Morada'].hasError('required')"
+            class="text-danger">Morada é obrigatorio introduzir!!</span>
+        </div>
+        <div class="form-group">
+            <p>Genero</p>
+            <input formControlName="Genero" type="radio" id="masculino" name="Genero" value="Masculino">
+            <label for="html"> Masculino</label><br>
+            <input formControlName="Genero" type="radio" id="feminino" name="Genero" value="Feminino">
+            <label for="css"> Feminino</label><br>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPreco">Data de Nacimento</label>
+            <input formControlName="DataNascimento" type="text" data-format="0000-00-00" placeholder="yyyy-MM-dd" class="form-control" id="exampleInputDataNascimento">
+            <span *ngIf="submitted == true && form.controls['DataNascimento'].hasError('required')"
+            class="text-danger">Data de Nascimento é obrigatorio introduzir!!</span>
+        </div>
+        <button style="margin-left:10%;width: 20%;font-weight: bolder;" type="submit" class="btn btn-primary">Inserir</button>
+    </form>
+</div>

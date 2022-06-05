@@ -37,3 +37,9 @@ export interface Utilizador {
     'Adulto',
     'Senior',
   }
+
+  export interface Password{
+    Email: string;
+    Password: string;
+    Password2: string;
+  }

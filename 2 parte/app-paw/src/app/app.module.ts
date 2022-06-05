@@ -10,6 +10,9 @@ import {HttpClientModule} from '@angular/common/http';
 import { BooksComponent } from './books/books.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { CreatebookComponent } from './createbook/createbook.component';
+import { RegisterClienteComponent } from './Utilizadores/register-cliente/register-cliente.component';
+import { RegisterFuncionarioComponent } from './Utilizadores/register-funcionario/register-funcionario.component';
+import { ChangePasswordComponent } from './Utilizadores/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,10 @@ import { CreatebookComponent } from './createbook/createbook.component';
     FuncionariosComponent,
     BooksComponent,
     NavBarComponent,
-    CreatebookComponent
+    CreatebookComponent,
+    RegisterClienteComponent,
+    RegisterFuncionarioComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
